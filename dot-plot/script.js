@@ -70,7 +70,7 @@ function drawGraphic() {
   svg = d3.select('#graphic').append('svg')
     .attr("width", chart_width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-    .attr("id", "chart")
+    .attr("class", "chart")
     .style("background-color", "#fff")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + (margin.top) + ")")
