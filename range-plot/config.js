@@ -3,7 +3,7 @@ config={
     "graphic_data_url": "data.csv",
     "legendLabels": {"min":"2015-2019", "max":"2020"},
     //the keys match the column names
-    "colour_palette": ["#6D6E72", "#0075A3"],
+    "colour_palette": ["#8D8C8E", "#206095"],
     "sourceText": "Office for National Statistics",
     "accessibleSummary":"Chart showing death rates due to alchohol by regions, for males, females and all.",
     "numberFormat":".0f",
@@ -13,19 +13,19 @@ config={
   "optional": {
     "margin": {
       "sm": {
-        "top": 15,
+        "top": 5,
         "right": 20,
         "bottom": 20,
         "left": 100
       },
       "md": {
-        "top": 15,
+        "top": 5,
         "right": 20,
         "bottom": 20,
         "left": 100
       },
       "lg": {
-        "top": 15,
+        "top": 5,
         "right": 20,
         "bottom": 20,
         "left": 100

@@ -102,8 +102,7 @@ function drawGraphic() {
         {
           if (e == 0) {
             d3.select(this)
-            .attr('stroke-width', '1.5px')
-            .attr('stroke', '#b3b3b3')
+            .attr('id', 'zero-line')
           };
         })
     })
