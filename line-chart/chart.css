@@ -1,0 +1,10 @@
+/* plotted graph line */
+#graphic .line
+/* required */
+  {
+  fill: none;
+  /* must be 'none' */
+  stroke-width: 3px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
