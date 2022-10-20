@@ -31,7 +31,7 @@ function drawGraphic() {
     .range([0, chart_width]);
 
   var y = d3.scalePoint()
-    .padding(0.1)
+    .padding(0.5)
     .range([0, height]);
 
   //use the data to find unique entries in the name column
@@ -105,7 +105,7 @@ function drawGraphic() {
   .attr('y2', height)
   .attr('x1',x(0))
   .attr('x2',x(0))
-  
+
   svg
     .append('g')
     .attr('class', 'y axis')
