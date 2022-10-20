@@ -79,7 +79,7 @@ svg.chart .axis line
 }
 
 /* this sets zero line */
-.zero-line
+#zero-line
 {
   stroke: #B3B3B3;
   stroke-width: 1.5px;
