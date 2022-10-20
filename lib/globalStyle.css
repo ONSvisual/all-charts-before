@@ -33,6 +33,13 @@ body
   margin: 0px auto;
 }
 
+text
+/* required */
+  {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+}
+
 /* chart */
 #graphic
 /* required */
@@ -45,8 +52,16 @@ body
 /* required */
   {
   font-size: 14px;
+  fill: #414042;
+}
+
+#graphic g.x.axis text
+/* required */
+  {
+  font-size: 14px;
   fill: #707071;
 }
+
 
 /* do not show the line that runs the domain of the axis */
 #graphic g.axis path.domain
@@ -61,6 +76,15 @@ body
   stroke: #d9d9d9;
   shape-rendering: crispEdges;
 }
+
+/* this sets zero line */
+.zero-line
+{
+  stroke: #B3B3B3;
+  stroke-width: 1.5px;
+  shape-rendering: crispEdges;
+}
+
 
 /* source */
 h5#source {

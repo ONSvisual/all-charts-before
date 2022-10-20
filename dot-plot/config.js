@@ -2,7 +2,7 @@ config={
   "essential": {
     "graphic_data_url": "data.csv",
     "legendLabels": ["2015-2019", "2020"],
-    "colour_palette": ["#6D6E72", "#0075A3"],
+    "colour_palette": ["#A09FA0", "#206095"],
     "sourceText": "Office for National Statistics",
     "accessibleSummary":"Chart showing death rates due to alchohol by regions, for males, females and all.",
     "xDomain":"auto"
