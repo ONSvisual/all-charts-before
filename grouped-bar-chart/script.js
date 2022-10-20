@@ -114,10 +114,19 @@ function drawGraphic() {
       })
 
   svg
+    .append('line')
+    .attr('class','zero-line')
+    .attr('y1',0)
+    .attr('y2', height)
+    .attr('x1',x(0))
+    .attr('x2',x(0))
+
+  svg
     .append('g')
     .attr('class', 'y axis')
     .call(yAxis)
     .selectAll('text').call(wrap,margin.left-10)
+
 
   svg.selectAll('rect')
       .data(graphic_data)
