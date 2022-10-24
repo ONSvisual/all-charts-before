@@ -102,7 +102,7 @@ function drawGraphic() {
         {
           if (e == 0) {
             d3.select(this)
-            .attr('id', 'zero-line')
+            .attr('class', 'zero-line')
           };
         })
     })
@@ -147,6 +147,18 @@ function drawGraphic() {
 
   )
 
+  // This does the x-axis label
+  charts.each(function(d,i){
+    if(i==charts._groups.length){
+      d3.select(this)
+      .append('text')
+      .attr('x',chart_width)
+      .attr('y',(d)=>d[2]+35)
+      .attr('class','axis--label')
+      .text(config.essential.xAxisLabel)
+      .attr('text-anchor','end')
+    }
+  })
 
 
 

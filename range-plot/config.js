@@ -7,6 +7,7 @@ config={
     "sourceText": "Office for National Statistics",
     "accessibleSummary":"Chart showing death rates due to alchohol by regions, for males, females and all.",
     "numberFormat":".0f",
+    "xAxisLabel":"x axis label",
     "xDomain":[0,100]
     // either auto or a custom domain as an array e.g [0,100]
   },
@@ -27,7 +28,7 @@ config={
       "lg": {
         "top": 5,
         "right": 20,
-        "bottom": 20,
+        "bottom": 40,
         "left": 100
       }
     },

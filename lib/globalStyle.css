@@ -63,6 +63,12 @@ svg.chart g.axis text
   fill: #707071;
 }
 
+/* this sets the labels for the axis */
+.axis--label{
+  font-size: 14px;
+  fill: #707071;
+}
+
 
 /* do not show the line that runs the domain of the axis */
 svg.chart g.axis path.domain
@@ -79,7 +85,8 @@ svg.chart .axis line
 }
 
 /* this sets zero line */
-#zero-line
+
+g.tick line.zero-line
 {
   stroke: #B3B3B3;
   stroke-width: 1.5px;

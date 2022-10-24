@@ -108,7 +108,7 @@ function drawGraphic() {
       {
         if (d == 0) {
           d3.select(this)
-          .attr('id', 'zero-line')
+          .attr('class','zero-line')
         };
       })
 
@@ -145,6 +145,18 @@ if(config.essential.dataLabels.show==true){
   .attr('fill',(d) => x(d.value)-x(0)<chart_width/10 ? "#414042" : "#ffffff")
   .text((d)=>d3.format(config.essential.dataLabels.numberFormat)(d.value))
 }//end if for datalabels
+
+// This does the x-axis label
+    svg
+    .append('g')
+    .attr('transform', 'translate(0,' + height + ')')
+    .append('text')
+    .attr('x',chart_width)
+    .attr('y',35)
+    .attr('class','axis--label')
+    .text(config.essential.xAxisLabel)
+    .attr('text-anchor','end');
+
 
 
   //create link to source
