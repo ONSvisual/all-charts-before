@@ -154,6 +154,18 @@ if(config.essential.dataLabels.show==true){
   .text((d)=>d3.format(config.essential.dataLabels.numberFormat)(d.value))
 }//end if for datalabels
 
+// This does the x-axis label
+    svg
+    .append('g')
+    .attr('transform', 'translate(0,' + height + ')')
+    .append('text')
+    .attr('x',chart_width)
+    .attr('y',35)
+    .attr('class','axis--label')
+    .text(config.essential.xAxisLabel)
+    .attr('text-anchor','end');
+
+
 
   //create link to source
   d3.select("#source")

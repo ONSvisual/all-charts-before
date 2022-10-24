@@ -9,27 +9,28 @@ config={
       "show":true,
       "numberFormat":".0%"
     },
-    "xDomain":"auto"
+    "xDomain":"auto",
     // either "auto" or an array for the x domain e.g. [0,100]
+    "xAxisLabel":"x axis label"
   },
   "optional": {
     "margin": {
       "sm": {
         "top": 15,
         "right": 20,
-        "bottom": 20,
+        "bottom": 50,
         "left": 120
       },
       "md": {
         "top": 15,
         "right": 20,
-        "bottom": 20,
+        "bottom": 50,
         "left": 120
       },
       "lg": {
         "top": 15,
         "right": 20,
-        "bottom": 20,
+        "bottom": 50,
         "left": 120
       }
     },
