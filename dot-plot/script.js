@@ -93,18 +93,11 @@ function drawGraphic() {
       {
         if (d == 0) {
           d3.select(this)
-          .attr('stroke-width', '1.5px')
-          .attr('stroke', '#b3b3b3')
-        };
+          .attr('id', 'zero-line')
+            };
       })
 
-  svg
-  .append('line')
-  .attr('class','zero-line')
-  .attr('y1',0)
-  .attr('y2', height)
-  .attr('x1',x(0))
-  .attr('x2',x(0))
+
 
   svg
     .append('g')

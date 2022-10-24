@@ -85,6 +85,7 @@ svg.chart .axis line
 }
 
 /* this sets zero line */
+
 g.tick line.zero-line
 {
   stroke: #B3B3B3;
