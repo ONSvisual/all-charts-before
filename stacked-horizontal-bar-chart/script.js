@@ -36,6 +36,9 @@ function drawGraphic() {
     .range([0, height])
     .round(true);
 
+  const colour = d3.scaleOrdinal()
+    .domain(graphic_data.columns.slice(1))
+    .range(config.essential.colour_palette)
 
   //use the data to find unique entries in the name column
   y.domain([...new Set(graphic_data.map(d => d.name))]);
@@ -45,10 +48,17 @@ function drawGraphic() {
     .tickSize(0)
     .tickPadding(10)
 
+  const stack = d3.stack()
+    .keys(graphic_data.columns.slice(1))
+    .offset(config.essential.stackOffset)
+    .order(config.essential.stackOrder)
+
+  const series = stack(graphic_data)
+
   //set up xAxis generator
   var xAxis = d3.axisBottom(x)
     .tickSize(-height)
-    .tickFormat(d3.format(".0%"))
+    .tickFormat(d3.format(config.essential.xAxisTickFormat))
     .ticks(config.optional.xAxisTicks[size]);
 
   //create svg for chart
@@ -60,12 +70,29 @@ function drawGraphic() {
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + (margin.top) + ")")
 
-
   if(config.essential.xDomain=="auto"){
-    x.domain([0, d3.max(graphic_data,function(d){return d.value})]);
+    x.domain(d3.extent(series.flat(2))); //flatten the arrays and then get the extent
   }else{
-    x.domain(config.essential.xDomain)
+    x.domain(config.essential.xDomain);
   }
+
+  // Set up the legend
+  var legenditem = d3.select('#legend')
+    .selectAll('div.legend--item')
+    .data(d3.zip(graphic_data.columns.slice(1), config.essential.colour_palette))
+    .enter()
+    .append('div')
+    .attr('class', 'legend--item')
+
+  legenditem.append('div').attr('class', 'legend--icon')
+    .style('background-color', function(d) {
+      return d[1]
+    })
+
+  legenditem.append('div')
+    .append('p').attr('class', 'legend--text').html(function(d) {
+      return d[0]
+    })
 
   svg
     .append('g')
@@ -75,9 +102,9 @@ function drawGraphic() {
       {
         if (d == 0) {
           d3.select(this)
-          .attr('class','zero-line')
-        };
-      })
+          .attr('class','zero-line');
+        }
+      });
 
 
   svg
@@ -87,28 +114,19 @@ function drawGraphic() {
     .selectAll('text').call(wrap,margin.left-10)
 
 
-  svg.selectAll('rect')
-      .data(graphic_data)
-      .join('rect')
-      .attr('x',x(0))
-      .attr('y',(d) => y(d.name))
-      .attr('width',(d) => x(d.value)-x(0))
-      .attr('height',y.bandwidth())
-      .attr('fill',config.essential.colour_palette);
+  svg.append('g')
+    .selectAll("g")
+    .data(series)
+    .join("g")
+    .attr("fill", (d,i) => config.essential.colour_palette[i])
+    .selectAll("rect")
+    .data(d => d)
+    .join("rect")
+    .attr("x", (d) => Math.min(x(d[0]), x(d[1])))
+    .attr("y", (d) => y(d.data.name))
+    .attr("width", (d) => Math.abs(x(d[0]) - x(d[1])))
+    .attr("height", y.bandwidth());
 
-
-if(config.essential.dataLabels.show==true){
-  svg.selectAll('text.dataLabels')
-  .data(graphic_data)
-  .join('text')
-  .attr('class','dataLabels')
-  .attr('x',(d) => x(d.value))
-  .attr('dx',(d) => x(d.value)-x(0)<chart_width/10 ? 3 : -3)
-  .attr('y',(d)=> y(d.name)+19)
-  .attr('text-anchor',(d) => x(d.value)-x(0)<chart_width/10 ? "start" : "end")
-  .attr('fill',(d) => x(d.value)-x(0)<chart_width/10 ? "#414042" : "#ffffff")
-  .text((d)=>d3.format(config.essential.dataLabels.numberFormat)(d.value))
-}//end if for datalabels
 
 // This does the x-axis label
     svg

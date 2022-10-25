@@ -105,12 +105,13 @@ h5#source {
 /* legend div */
 #legend{
   display:flex;
-  padding-bottom: 5px;
+  flex-wrap: wrap;
 }
 
 .legend--item {
   display:flex;
   padding-right:40px;
+  padding-bottom: 12px;
 }
 
 .legend--icon {
