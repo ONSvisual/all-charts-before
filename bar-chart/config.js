@@ -1,8 +1,7 @@
 config={
   "essential": {
     "graphic_data_url": "data.csv",
-    "legendLabels": ["Category 1 goes here", "Category 2 goes here"],
-    "colour_palette": ["#206095", "#27a0cc"],
+    "colour_palette": "#206095",
     "sourceText": "Office for National Statistics",
     "accessibleSummary":"Here is the screenreader text describing the chart.",
     "dataLabels":{
@@ -35,9 +34,9 @@ config={
       }
     },
     "seriesHeight":{
-      "sm":28,
-      "md":28,
-      "lg":28
+      "sm":30,
+      "md":30,
+      "lg":30
     },
     "xAxisTicks":{
       "sm":4,

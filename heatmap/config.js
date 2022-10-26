@@ -1,17 +1,15 @@
 config={
   "essential": {
     "graphic_data_url": "data.csv",
-    "legendLabels": ["Category 1 goes here", "Category 2 goes here"],
-    "colour_palette": ["#206095", "#27a0cc"],
+    "colour_palette": "YlGnBu",
+    // must be a colour brewer palette
     "sourceText": "Office for National Statistics",
     "accessibleSummary":"Here is the screenreader text describing the chart.",
-    "dataLabels":{
-      "show":true,
-      "numberFormat":".0%"
-    },
-    "xDomain":"auto",
-    // either "auto" or an array for the x domain e.g. [0,100]
-    "xAxisLabel":"x axis label"
+    "dataLabelsNumberFormat":".0f",
+    "xAxisLabel":"x axis label",
+    "numberOfBreaks":5,
+    "breaks":"jenks"
+    // either "jenks","equal" or an array with custom breaks
   },
   "optional": {
     "margin": {
@@ -35,14 +33,9 @@ config={
       }
     },
     "seriesHeight":{
-      "sm":28,
-      "md":28,
-      "lg":28
-    },
-    "xAxisTicks":{
-      "sm":4,
-      "md":8,
-      "lg":10
+      "sm":40,
+      "md":40,
+      "lg":40
     },
     "mobileBreakpoint": 510,
     "mediumBreakpoint": 600

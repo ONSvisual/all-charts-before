@@ -50,17 +50,16 @@ text
 
 /* axis tick labels */
 svg.chart g.axis text
-/* required */
+/* sets all tick text as grey 100 */
   {
   font-size: 14px;
   fill: #414042;
 }
 
-#graphic g.x.axis text
-/* required */
-  {
-  font-size: 14px;
-  fill: #707071;
+/* overwrites x-axis as grey 75 */
+svg.chart g.x.axis text
+{
+  fill:#707071;
 }
 
 /* this sets the labels for the axis */
@@ -105,12 +104,13 @@ h5#source {
 /* legend div */
 #legend{
   display:flex;
-  padding-bottom: 5px;
+  flex-wrap: wrap;
 }
 
 .legend--item {
   display:flex;
   padding-right:40px;
+  padding-bottom: 12px;
 }
 
 .legend--icon {
