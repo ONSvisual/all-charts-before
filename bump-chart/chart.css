@@ -1,0 +1,15 @@
+line.between{
+  stroke-width:2.5px;
+}
+
+text.categoryLabel{
+  font-size: 12px;
+  font-weight: 600;
+}
+
+text.minRankNum,text.maxRankNum{
+  font-weight:700;
+  font-size: 14px;
+  fill:white;
+
+}

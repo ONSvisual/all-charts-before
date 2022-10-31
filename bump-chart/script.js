@@ -20,8 +20,8 @@ function drawGraphic() {
 
   var margin = config.optional.margin[size]
   var chart_width = parseInt(graphic.style("width")) - margin.left - margin.right;
-  //height is set by an aspect ratio in the config
-  var height = config.optional.aspectRatio[size][0] * chart_width / config.optional.aspectRatio[size][1]
+  //height is set by unique options in column name * a fixed height
+  var height = (config.optional.seriesHeight[size] * graphic_data.length) + 20
 
   // clear out existing graphics
   graphic.selectAll("*").remove();
@@ -29,25 +29,30 @@ function drawGraphic() {
   // pivot data wide to long
   dataPivoted = Array.from(pivot(graphic_data, graphic_data.columns.slice(1), "category", "value"))
 
+  minranks = d3.rank(graphic_data, d => d.min)
+  maxranks = d3.rank(graphic_data, d => d.max)
+
+  dataRanked = graphic_data.map((d, i) => ({
+    ...d,
+    minrank: minranks[i],
+    maxrank: maxranks[i]
+  }))
+
+  console.log(dataRanked)
 
   //set up scales
   x = d3.scalePoint()
     .range([0, chart_width])
     .domain(graphic_data.columns.slice(1));
 
-  y = d3.scaleLinear()
-    .range([height, 0]);
-
-  //set up yAxis generator
-  var yAxis = d3.axisLeft(y)
-    .tickSize(-chart_width)
-    .tickPadding(10)
-    .ticks(config.optional.yAxisTicks[size]);
+  y = d3.scalePoint()
+    .range([height, 0])
+    .domain(d3.range(graphic_data.length - 1, -1, -1));
 
   //set up xAxis generator
-  var xAxis = d3.axisTop(x)
+  const xAxis = d3.axisTop(x)
     .tickPadding(15)
-    .tickSize(-height);
+    .tickSize(0);
 
 
   //create svg for chart
@@ -59,24 +64,6 @@ function drawGraphic() {
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + (margin.top) + ")")
 
-
-  if (config.essential.yDomain == "auto") {
-    y.domain(d3.extent(dataPivoted, d => +d.value))
-  } else {
-    y.domain(config.essential.yDomain)
-  }
-
-  svg
-    .append('g')
-    .attr('transform', 'translate(0,' + 0 + ')')
-    .attr('class', 'y axis numeric')
-    .call(yAxis).selectAll('line').each(function(d) {
-      if (d == 0) {
-        d3.select(this)
-          .attr('class', 'zero-line')
-      };
-    })
-
   svg
     .append('g')
     .attr('class', 'x axis categorical')
@@ -84,15 +71,15 @@ function drawGraphic() {
     .selectAll('text') //.call(wrap, margin.left - 5);
 
   svg.selectAll('line.between')
-    .data(graphic_data)
+    .data(dataRanked)
     .join('line')
     .attr('class', 'between')
     .attr('x1', x("min"))
-    .attr('y1', (d) => y(d.min))
+    .attr('y1', (d) => y(d.minrank))
     .attr('x2', x("max"))
-    .attr('y2', (d) => y(d.max))
+    .attr('y2', (d) => y(d.maxrank))
     .attr('stroke', function(d) {
-      if (+d.max > +d.min) {
+      if (+d.maxrank > +d.minrank) {
         return config.essential.colour_palette[0];
       } else if (+d.max < +d.min) {
         return config.essential.colour_palette[1];
@@ -101,33 +88,48 @@ function drawGraphic() {
       }
     });
 
-  svg.selectAll('circle')
-    .data(dataPivoted)
+  svg.selectAll('circle.minRank')
+    .data(dataRanked)
     .join('circle')
-    .attr('r', 6)
+    .attr('r', 13)
     .attr('fill', config.essential.colour_palette[0])
     .attr('cy', function(d) {
-      return y(d.value)
+      return y(d.minrank)
     })
     .attr('cx', function(d) {
-      return x(d.category)
+      return x("min")
     })
 
-    // Add in the labels
+  svg.selectAll('circle.maxRank')
+    .data(dataRanked)
+    .join('circle')
+    .attr('r', 13)
+    .attr('fill', config.essential.colour_palette[0])
+    .attr('cy', function(d) {
+      return y(d.maxrank)
+    })
+    .attr('cx', function(d) {
+      return x("max")
+    })
+
+  // Add in the labels
   svg.selectAll('text.categoryLabel')
-    .data(graphic_data)
+    .data(dataRanked)
     .join('text')
     .attr('class', 'categoryLabel')
     .attr('x', x("max"))
-    .attr('y', (d) => y(d.max))
-    .attr('dx',"6px")
+    .attr('y', (d) => y(d.maxrank))
     .text((d) => d.name)
-    .call(wrap,margin.right-10)
+    .call(wrap, margin.right - 10)
 
-// create new array from labels and select particular attributes
-  labels = Array.from(d3.selectAll('.categoryLabel')._groups[0]).map(function(d){
+  // create new array from labels and select particular attributes
+  labels = Array.from(d3.selectAll('.categoryLabel')._groups[0]).map(function(d) {
     bbox = d.getBBox()
-    return {targetY:+d3.select(d).attr('y'),label:d.__data__.name,height:bbox.height}
+    return {
+      targetY: +d3.select(d).attr('y'),
+      label: d.__data__.name,
+      height: bbox.height
+    }
   })
 
   // Use James T's code to get new positions
@@ -141,12 +143,36 @@ function drawGraphic() {
     .data(newPositions)
     .join('text')
     .attr('class', 'categoryLabel')
-    .attr('y',(d)=>d.y)
+    .attr('y', (d) => d.y)
     .attr('x', x("max"))
-    .attr('dx',"6px")
-    .attr('dy',"0.4em")
+    .attr('dx', "19px")
+    .attr('dy', "6px")
     .text((d) => d.datum.label)
-    .call(wrap,margin.right-10)
+    .call(wrap, margin.right - 10)
+
+  svg.append('g').selectAll('text.minRankNum')
+    .data(dataRanked)
+    .join('text')
+    .attr('class', 'minRankNum')
+    .text(d => +d.minrank+1)
+    .attr('y', d => y(d.minrank))
+    .attr('x',x("min"))
+    .attr('text-anchor',"middle")
+    .attr('dy',5)
+
+
+  svg.append('g').selectAll('text.maxRankNum')
+    .data(dataRanked)
+    .join('text')
+    .attr('class', 'maxRankNum')
+    .text(d => +d.maxrank+1)
+    .attr('y', d => y(d.maxrank))
+    .attr('x',x("max"))
+    .attr('text-anchor',"middle")
+    .attr('dy',5)
+
+
+
 
   //create link to source
   d3.select("#source")
@@ -197,12 +223,12 @@ function wrap(text, width) {
         line.pop();
         tspan.text(line.join(" "));
         line = [word];
-        tspan = text.append("tspan").attr('x', x).attr('dx',dx).attr("dy", lineHeight + "em").text(word);
+        tspan = text.append("tspan").attr('x', x).attr('dx', dx).attr("dy", lineHeight + "em").text(word);
       }
     }
     var breaks = text.selectAll("tspan").size();
     text.attr("y", function() {
-      return +y+-6 * (breaks - 1);
+      return +y + -6 * (breaks - 1);
     });
   });
 

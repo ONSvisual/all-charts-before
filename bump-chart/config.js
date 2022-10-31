@@ -4,15 +4,12 @@ config={
     "colour_palette": ["#206095","#F66068","#C6C6C6"],
     "sourceText": "Office for National Statistics",
     "accessibleSummary":"Chart showing death rates due to alchohol by regions, for males, females and all.",
-    "yDomain":[0,100]
-    // either auto or a custom domain as an array e.g [0,100]
   },
   "optional": {
-    "aspectRatio":{
-      //height to width ratio of the chart area, not including margin
-      "sm":[1,2],
-      "md":[1,2],
-      "lg":[1,2]
+    "seriesHeight":{
+      "sm":30,
+      "md":30,
+      "lg":20
     },
     "margin": {
       "sm": {
@@ -33,11 +30,6 @@ config={
         "bottom": 50,
         "left": 35
       }
-    },
-    "yAxisTicks":{
-      "sm":4,
-      "md":8,
-      "lg":10
     },
     "mobileBreakpoint": 510,
     "mediumBreakpoint": 600
