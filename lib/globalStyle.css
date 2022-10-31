@@ -51,7 +51,7 @@ text
 /* axis tick labels */
 svg.chart g.axis text
 /* sets all tick text as grey 100 */
-  {
+{
   font-size: 14px;
   fill: #414042;
 }
@@ -61,6 +61,18 @@ svg.chart g.x.axis text
 {
   fill:#707071;
 }
+
+/* if axis has class numeric, make it grey75 */
+svg.chart g.axis.numeric text{
+  fill: #707071;
+}
+
+/* if axis has class categorical, make it grey100 */
+svg.chart g.axis.categorical text{
+  fill:#414042;
+}
+
+
 
 /* this sets the labels for the axis */
 .axis--label{
