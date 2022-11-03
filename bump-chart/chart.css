@@ -1,15 +1,19 @@
-line.between{
-  stroke-width:2.5px;
+path.between{
+  stroke-width:3px;
 }
 
 text.categoryLabel{
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
 }
 
-text.minRankNum,text.maxRankNum{
+text.rankNum{
   font-weight:700;
   font-size: 14px;
-  fill:white;
+}
 
+g.x.axis.categorical text{
+  font-size: 16px;
+  font-weight: 700;
+  fill: "#414042";
 }

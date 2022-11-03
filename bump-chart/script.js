@@ -26,32 +26,58 @@ function drawGraphic() {
   // clear out existing graphics
   graphic.selectAll("*").remove();
 
+  series = graphic_data.map(d => d.name)
+  columns = graphic_data.columns.slice(1)
+
+
   // pivot data wide to long
   dataPivoted = Array.from(pivot(graphic_data, graphic_data.columns.slice(1), "category", "value"))
 
-  minranks = d3.rank(graphic_data, d => d.min)
-  maxranks = d3.rank(graphic_data, d => d.max)
+  // get ranks for the data
+  ranks = {};
+  columns.forEach((item, i) => {
+    ranks[item] = d3.rank(graphic_data, d => +d[item])
+  });
 
-  dataRanked = graphic_data.map((d, i) => ({
+  //pivot wide to tidy data and include ranks
+  dataPivoted = dataPivoted.map((d, i) => ({
     ...d,
-    minrank: minranks[i],
-    maxrank: maxranks[i]
+    rank: ranks[d.category][series.indexOf(d.name)],
   }))
 
-  console.log(dataRanked)
+  nested = d3.group(dataPivoted, d => d.name)
 
   //set up scales
   x = d3.scalePoint()
     .range([0, chart_width])
-    .domain(graphic_data.columns.slice(1));
+    .domain(graphic_data.columns.slice(1))
+    .round(true);
 
   y = d3.scalePoint()
     .range([height, 0])
-    .domain(d3.range(graphic_data.length - 1, -1, -1));
+    .domain(d3.range(graphic_data.length - 1, -1, -1))
+    .round(true);
+
+  colour = d3.scaleOrdinal()
+    .domain(series)
+
+  if (config.essential.colour_palette.type == "custom") {
+    colour.range(config.essential.colour_palette.palette)
+  } else if (config.essential.colour_palette.type == "sequential") {
+    colour.range(chroma.scale(chroma.brewer[config.essential.colour_palette.palette]).colors(series.length))
+    colour.domain(d3.range(graphic_data.length - 1, -1, -1).reverse())
+  } else if (config.essential.colour_palette.type == "qualitative") {
+    colour.range(chroma.brewer[config.essential.colour_palette.palette])
+  }
+
+  // line generator
+  line = d3.line()
+    .x(d => x(d.category))
+    .y(d => y(d.rank))
 
   //set up xAxis generator
   const xAxis = d3.axisTop(x)
-    .tickPadding(15)
+    .tickPadding(23)
     .tickSize(0);
 
 
@@ -68,59 +94,55 @@ function drawGraphic() {
     .append('g')
     .attr('class', 'x axis categorical')
     .call(xAxis)
-    .selectAll('text') //.call(wrap, margin.left - 5);
+    .selectAll('text')
 
-  svg.selectAll('line.between')
-    .data(dataRanked)
-    .join('line')
+  series = svg.selectAll('g.series')
+    .data(Array.from(nested))
+    .join('g')
+    .attr('class', 'series')
+
+  series.append('path')
     .attr('class', 'between')
-    .attr('x1', x("min"))
-    .attr('y1', (d) => y(d.minrank))
-    .attr('x2', x("max"))
-    .attr('y2', (d) => y(d.maxrank))
-    .attr('stroke', function(d) {
-      if (+d.maxrank > +d.minrank) {
-        return config.essential.colour_palette[0];
-      } else if (+d.max < +d.min) {
-        return config.essential.colour_palette[1];
-      } else {
-        return config.essential.colour_palette[2];
-      }
-    });
+    .attr('d', d => line(d[1]))
+    .attr('stroke', d => config.essential.colour_palette.type == "sequential" ? colour(d[1][d[1].length - 1].rank) : colour(d[0]))
 
-  svg.selectAll('circle.minRank')
-    .data(dataRanked)
+
+  // add in the circles
+  series.selectAll('circle.ranks')
+    .data(d => d[1])
     .join('circle')
     .attr('r', 13)
-    .attr('fill', config.essential.colour_palette[0])
+    .attr('fill', d => config.essential.colour_palette.type == "sequential" ? colour(d.rank) : colour(d.name))
     .attr('cy', function(d) {
-      return y(d.minrank)
+      return y(d.rank)
     })
     .attr('cx', function(d) {
-      return x("min")
+      return x(d.category)
     })
 
-  svg.selectAll('circle.maxRank')
-    .data(dataRanked)
-    .join('circle')
-    .attr('r', 13)
-    .attr('fill', config.essential.colour_palette[0])
-    .attr('cy', function(d) {
-      return y(d.maxrank)
-    })
-    .attr('cx', function(d) {
-      return x("max")
-    })
 
-  // Add in the labels
-  svg.selectAll('text.categoryLabel')
-    .data(dataRanked)
+  // add in the rank numbers in the circle
+  series.selectAll('text.rankNum')
+    .data(d => d[1])
+    .join('text')
+    .attr('class', 'rankNum')
+    .text(d => +d.rank + 1)
+    .attr('y', d => y(d.rank))
+    .attr('x', d => x(d.category))
+    .attr('text-anchor', "middle")
+    .attr('dy', 5)
+    .attr('fill', (d) => chroma.contrast(config.essential.colour_palette.type == "sequential" ? colour(d.rank) : colour(d.name), "#fff") < 4.5 ? "#414042" : "#fff")
+
+  // // Add in the line labels
+  series.selectAll('text.categoryLabel')
+    .data(d => d[1].filter(d => d.category == columns[columns.length - 1]))
     .join('text')
     .attr('class', 'categoryLabel')
-    .attr('x', x("max"))
-    .attr('y', (d) => y(d.maxrank))
+    .attr('x', x(columns[columns.length - 1]))
+    .attr('y', (d) => y(d.rank))
     .text((d) => d.name)
     .call(wrap, margin.right - 10)
+
 
   // create new array from labels and select particular attributes
   labels = Array.from(d3.selectAll('.categoryLabel')._groups[0]).map(function(d) {
@@ -139,39 +161,16 @@ function drawGraphic() {
   d3.selectAll('text.categoryLabel').remove()
 
   // add labels into their new positions
-  svg.selectAll('text.categoryLabel')
+  series.selectAll('text.categoryLabel')
     .data(newPositions)
     .join('text')
     .attr('class', 'categoryLabel')
-    .attr('y', (d) => d.y)
-    .attr('x', x("max"))
+    .attr('y', (d) => Math.round(d.y))
+    .attr('x', x(columns[columns.length - 1]))
     .attr('dx', "19px")
     .attr('dy', "6px")
     .text((d) => d.datum.label)
     .call(wrap, margin.right - 10)
-
-  svg.append('g').selectAll('text.minRankNum')
-    .data(dataRanked)
-    .join('text')
-    .attr('class', 'minRankNum')
-    .text(d => +d.minrank+1)
-    .attr('y', d => y(d.minrank))
-    .attr('x',x("min"))
-    .attr('text-anchor',"middle")
-    .attr('dy',5)
-
-
-  svg.append('g').selectAll('text.maxRankNum')
-    .data(dataRanked)
-    .join('text')
-    .attr('class', 'maxRankNum')
-    .text(d => +d.maxrank+1)
-    .attr('y', d => y(d.maxrank))
-    .attr('x',x("max"))
-    .attr('text-anchor',"middle")
-    .attr('dy',5)
-
-
 
 
   //create link to source
