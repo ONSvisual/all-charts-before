@@ -7,6 +7,10 @@ text.categoryLabel{
   font-weight: 600;
 }
 
+text.categoryLabel tspan{
+  font-weight:400;
+}
+
 text.rankNum{
   font-weight:700;
   font-size: 14px;

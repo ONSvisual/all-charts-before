@@ -105,7 +105,15 @@ function drawGraphic() {
     .data(dataPivoted)
     .join('circle')
     .attr('r', 6)
-    .attr('fill', config.essential.colour_palette[0])
+    .attr('fill', function(d) {
+      if (+d.max > +d.min) {
+        return config.essential.colour_palette[0];
+      } else if (+d.max < +d.min) {
+        return config.essential.colour_palette[1];
+      } else {
+        return config.essential.colour_palette[2];
+      }
+    })
     .attr('cy', function(d) {
       return y(d.value)
     })
@@ -143,7 +151,7 @@ function drawGraphic() {
     .attr('class', 'categoryLabel')
     .attr('y',(d)=>d.y)
     .attr('x', x("max"))
-    .attr('dx',"6px")
+    .attr('dx',"16px")
     .attr('dy',"0.4em")
     .text((d) => d.datum.label)
     .call(wrap,margin.right-10)

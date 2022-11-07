@@ -142,6 +142,9 @@ function drawGraphic() {
     .attr('y', (d) => y(d.rank))
     .text((d) => d.name)
     .call(wrap, margin.right - 10)
+    .append('tspan')
+    .text(d=>" ("+d.value+")")
+
 
 
   // create new array from labels and select particular attributes
@@ -154,7 +157,7 @@ function drawGraphic() {
     }
   })
 
-  // Use James T's code to get new positions
+  // // Use James T's code to get new positions
   newPositions = positionLabels(labels, y.range().reverse, d => d.targetY, d => d.height);
 
   // remove existing labels
@@ -171,6 +174,9 @@ function drawGraphic() {
     .attr('dy', "6px")
     .text((d) => d.datum.label)
     .call(wrap, margin.right - 10)
+    .append('tspan')
+    .text(d=>" ("+d.value+")")
+
 
 
   //create link to source
