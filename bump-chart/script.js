@@ -26,36 +26,38 @@ function drawGraphic() {
   // clear out existing graphics
   graphic.selectAll("*").remove();
 
-  series = graphic_data.map(d => d.name)
-  columns = graphic_data.columns.slice(1)
 
 
-  // pivot data wide to long
-  dataPivoted = Array.from(pivot(graphic_data, graphic_data.columns.slice(1), "category", "value"))
+  series = [...new Set(graphic_data.map(d => d.name))]
+  columns = [...new Set(graphic_data.map(d => d.timePeriod))]
 
-  // get ranks for the data
-  ranks = {};
-  columns.forEach((item, i) => {
-    ranks[item] = d3.rank(graphic_data, d => +d[item])
+
+  //Add ranks to the data
+  // first group data by columns
+  data = d3.groups(graphic_data, d => d.timePeriod)
+
+  data.forEach((item) => { //for each column
+    item[2] = d3.rank(item[1], d => +d.value) // work out the ranks
+    item[1].forEach((d, i) => {
+      d.rank = (item[1].length-1)-item[2][i] //add the ranks into each data point
+    });
   });
 
-  //pivot wide to tidy data and include ranks
-  dataPivoted = dataPivoted.map((d, i) => ({
-    ...d,
-    rank: ranks[d.category][series.indexOf(d.name)],
-  }))
+  // flatten the nested data by columns but just keep the objects like graphic data
+  dataWithRanks = data.flatMap(d => d[1])
 
-  nested = d3.group(dataPivoted, d => d.name)
+  // now nest them by series
+  nested = d3.groups(dataWithRanks, d => d.name)
 
   //set up scales
   x = d3.scalePoint()
     .range([0, chart_width])
-    .domain(graphic_data.columns.slice(1))
+    .domain(columns)
     .round(true);
 
   y = d3.scalePoint()
     .range([height, 0])
-    .domain(d3.range(graphic_data.length - 1, -1, -1))
+    .domain(d3.range(series.length - 1, -1, -1))
     .round(true);
 
   colour = d3.scaleOrdinal()
@@ -70,9 +72,12 @@ function drawGraphic() {
     colour.range(chroma.brewer[config.essential.colour_palette.palette])
   }
 
+  // divergent palette with d3.scaleThreshold
+
+
   // line generator
   line = d3.line()
-    .x(d => x(d.category))
+    .x(d => x(d.timePeriod))
     .y(d => y(d.rank))
 
   //set up xAxis generator
@@ -97,7 +102,7 @@ function drawGraphic() {
     .selectAll('text')
 
   series = svg.selectAll('g.series')
-    .data(Array.from(nested))
+    .data(nested)
     .join('g')
     .attr('class', 'series')
 
@@ -117,7 +122,7 @@ function drawGraphic() {
       return y(d.rank)
     })
     .attr('cx', function(d) {
-      return x(d.category)
+      return x(d.timePeriod)
     })
 
 
@@ -126,26 +131,24 @@ function drawGraphic() {
     .data(d => d[1])
     .join('text')
     .attr('class', 'rankNum')
-    .text(d => +d.rank + 1)
+    .text(d => +d.rank+1>config.essential.customRankCutoff ? d.customRank : +d.rank + 1)
     .attr('y', d => y(d.rank))
-    .attr('x', d => x(d.category))
+    .attr('x', d => x(d.timePeriod))
     .attr('text-anchor', "middle")
     .attr('dy', 5)
     .attr('fill', (d) => chroma.contrast(config.essential.colour_palette.type == "sequential" ? colour(d.rank) : colour(d.name), "#fff") < 4.5 ? "#414042" : "#fff")
 
   // // Add in the line labels
   series.selectAll('text.categoryLabel')
-    .data(d => d[1].filter(d => d.category == columns[columns.length - 1]))
+    .data(d => d[1].filter(d => d.timePeriod == columns[columns.length - 1]))
     .join('text')
     .attr('class', 'categoryLabel')
-    .attr('x', x(columns[columns.length - 1]))
+    .attr('x', d => x(d.timePeriod))
     .attr('y', (d) => y(d.rank))
     .text((d) => d.name)
     .call(wrap, margin.right - 10)
     .append('tspan')
-    .text(d=>" ("+d.value+")")
-
-
+    .text(d => " (" + d.value + ")")
 
   // create new array from labels and select particular attributes
   labels = Array.from(d3.selectAll('.categoryLabel')._groups[0]).map(function(d) {
@@ -153,11 +156,12 @@ function drawGraphic() {
     return {
       targetY: +d3.select(d).attr('y'),
       label: d.__data__.name,
-      height: bbox.height
+      height: bbox.height,
+      value: d.__data__.value
     }
   })
 
-  // // Use James T's code to get new positions
+  // Use James T's code to get new positions
   newPositions = positionLabels(labels, y.range().reverse, d => d.targetY, d => d.height);
 
   // remove existing labels
@@ -175,8 +179,23 @@ function drawGraphic() {
     .text((d) => d.datum.label)
     .call(wrap, margin.right - 10)
     .append('tspan')
-    .text(d=>" ("+d.value+")")
+    .text(d => " (" + d3.format(config.essential.numberFormat)(d.datum.value) + ")")
 
+
+// add in top 10 line
+ svg.append("line")
+ .attr('x1',-margin.left)
+ .attr('x2',chart_width+margin.right)
+ .attr('y1',y(config.essential.customRankCutoff)-y.step()/2)
+ .attr('y2',y(config.essential.customRankCutoff)-y.step()/2)
+ .attr('id','cutoffline')
+
+ svg.append("text")
+ .attr('x',chart_width/2)
+ .attr('y',y(config.essential.customRankCutoff))
+ .attr('text-anchor','middle')
+ .attr('id','cutofflinetext')
+ .text('Top 10')
 
 
   //create link to source

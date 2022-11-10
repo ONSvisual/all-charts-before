@@ -8,6 +8,10 @@ text.categoryLabel{
 }
 
 text.categoryLabel tspan{
+  font-weight:700;
+}
+
+text.categoryLabel tspan:last-child{
   font-weight:400;
 }
 
@@ -20,4 +24,16 @@ g.x.axis.categorical text{
   font-size: 16px;
   font-weight: 700;
   fill: "#414042";
+}
+
+line#cutoffline{
+  stroke-dasharray:5 5;
+  stroke:#707071;
+  stroke-width:3px;
+}
+
+text#cutofflinetext{
+  font-weight: 700;
+  font-size:16px;
+  fill:#707071;
 }
