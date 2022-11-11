@@ -134,7 +134,7 @@ function drawGraphic() {
     .data(dataPivoted)
     .join('text')
     .attr('class','dataLabels')
-    .attr('fill',d=>d.value>=breaks.get(d.region)[2]? "#ffffff" : "#414042")
+    .attr('fill', (d) => chroma.contrast(colour.get(d.region)(+d.value), "#fff") < 4.5 ? "#414042" : "#fff")
     .attr('x',d=>x(d.region))
     .attr('dx',x.bandwidth()/2)
     .attr('y',d=>y(d.name))
