@@ -1,3 +1,7 @@
+svg{
+  font-family:"Open Sans"
+}
+
 .dataLabels{
   font-weight: 600;
   font-size: 16px;
@@ -10,4 +14,16 @@ svg.chart g.x g.tick text{
 
 g.y g.tick text{
   font-weight: 600;
+}
+
+#key .tick text{
+  font-size: 14px;
+}
+
+#key path.domain{
+  display:none;
+}
+
+#keysymbol path{
+  transform: rotate(180deg) ;
 }
