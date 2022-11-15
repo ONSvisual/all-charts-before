@@ -1,0 +1,14 @@
+line.between{
+  stroke-width:3px;
+}
+
+text.categoryLabel{
+  font-size: 14px;
+  font-weight: 700;
+}
+
+g.x.axis.categorical text{
+  font-size: 16px;
+  font-weight: 700;
+  fill: "#414042";
+}

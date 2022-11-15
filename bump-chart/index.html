@@ -3,14 +3,14 @@
 
 <head>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
-  <title>heatmap</title>
+  <title>Bump chart</title>
 
-  <meta name="template" content="heatmap">
+  <meta name="template" content="Bump-chart">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta charset="utf-8" />
 
   <link rel="stylesheet" href="../lib/globalStyle.css" />
-  <link rel="stylesheet" href="./chart.css"/>
+  <link rel="stylesheet" href="./chart.css" />
 </head>
 
 <body>
@@ -20,6 +20,7 @@
   <div aria-hidden="true" id="legend"></div>
 
   <div id="graphic" aria-hidden="true">
+    <img src="fallback.png" alt="[Chart]" />
   </div>
 
 
@@ -28,10 +29,13 @@
 
   <script src="https://cdn.ons.gov.uk/vendor/d3/6.3.0/d3.min.js" type="text/javascript"></script>
   <script src="https://cdn.ons.gov.uk/vendor/pym/1.3.2/pym.js" type="text/javascript"></script>
-  <script src="../lib/simple-statistics.min.js" type="text/javascript"></script>
-  <script src="../lib/chroma.min.js" type="text/javascript"></script>
   <script src="./config.js"></script>
+  <script src="../lib/labelplacer.js"></script>
+  <script src="../lib/d3-array.js"></script>
+  <!-- d3 array is needed becaues d3v7 doesn't include d3.rank -->
+  <script src="../lib/chroma.min.js" type="text/javascript"></script>
   <script src="./script.js"></script>
+
 
 </body>
 

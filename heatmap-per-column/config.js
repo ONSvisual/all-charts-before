@@ -8,28 +8,26 @@ config={
     "dataLabelsNumberFormat":".0f",
     "xAxisLabel":"x axis label",
     "numberOfBreaks":5,
-    "breaks":"jenks",
+    "breaks":"jenks"
     // either "jenks","equal" or an array with custom breaks
-    "cascadeX":true,
-    //turns on or off cascading xaxis label
-    "legendFormat":d3.format(".0f")
+    // if using custom breaks, it needs to be an object with keys the same as the columns and then an array of the value as the value of the key
   },
   "optional": {
     "margin": {
       "sm": {
-        "top": 180,
+        "top": 15,
         "right": 20,
         "bottom": 50,
         "left": 120
       },
       "md": {
-        "top": 180,
+        "top": 15,
         "right": 20,
         "bottom": 50,
         "left": 120
       },
       "lg": {
-        "top": 180,
+        "top": 15,
         "right": 20,
         "bottom": 50,
         "left": 120
