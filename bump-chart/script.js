@@ -168,7 +168,7 @@ function drawGraphic() {
   d3.selectAll('text.categoryLabel').remove()
 
   // add labels into their new positions
-  series.selectAll('text.categoryLabel')
+  svg.selectAll('text.categoryLabel')
     .data(newPositions)
     .join('text')
     .attr('class', 'categoryLabel')
