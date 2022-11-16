@@ -186,7 +186,6 @@ function drawGraphic() {
     .attr('width', x.bandwidth())
     .attr('height', y.bandwidth())
     .on('mouseover', function(d) {
-      console.log(d)
       d3.select('#keytext')
         .text(d3.format(config.essential.dataLabelsNumberFormat)(d.explicitOriginalTarget.__data__.value))
         .transition()
