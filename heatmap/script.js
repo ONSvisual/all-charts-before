@@ -186,17 +186,19 @@ function drawGraphic() {
     .attr('width', x.bandwidth())
     .attr('height', y.bandwidth())
     .on('mouseover', function(d) {
+
+      console.log(d3.select(this).data()[0].value)
       d3.select('#keytext')
-        .text(d3.format(config.essential.dataLabelsNumberFormat)(d.explicitOriginalTarget.__data__.value))
+        .text(d3.format(config.essential.dataLabelsNumberFormat)(d3.select(this).data()[0].value))
         .transition()
-        .attr('x', legendx(+d.explicitOriginalTarget.__data__.value))
+        .attr('x', legendx(+d3.select(this).data()[0].value))
 
       d3.select('#keysymbol path')
         .attr('opacity', 1)
 
       d3.select('#keysymbol')
         .transition()
-        .attr('transform', 'translate(' + legendx(+d.explicitOriginalTarget.__data__.value) + ',0)')
+        .attr('transform', 'translate(' + legendx(+d3.select(this).data()[0].value) + ',0)')
     })
     .on("mouseout", mouseout)
 
