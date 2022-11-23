@@ -1,0 +1,17 @@
+name,group,plot,series,value
+Christian ,Countries,England,2011,93.81786838
+Christian ,Countries,England,2021,32.89214576
+Christian ,Countries,Wales,2011,71.1818368
+Christian ,Countries,Wales,2021,11.34076049
+Non-Christian,Countries,England,2011,55.43581945
+Non-Christian,Countries,England,2021,44.69315791
+Non-Christian,Countries,Wales,2011,92.22515476
+Non-Christian,Countries,Wales,2021,60.72370889
+Christian ,Regions,North West,2011,66.62355083
+Christian ,Regions,North West,2021,3.288172326
+Christian ,Regions,South West,2011,66.72800468
+Christian ,Regions,South West,2021,24.45142772
+Non-Christian,Regions,North West,2011,35.73139698
+Non-Christian,Regions,North West,2021,35.77223386
+Non-Christian,Regions,South West,2011,42.51518003
+Non-Christian,Regions,South West,2021,61.79518256

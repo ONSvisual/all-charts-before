@@ -1,0 +1,4 @@
+div.plot{
+  display: flex;
+  flex-direction: row;
+}
