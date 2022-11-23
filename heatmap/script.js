@@ -72,7 +72,7 @@ function drawGraphic() {
     .round(true);
 
   colour = d3.scaleThreshold()
-    .domain(breaks.slice(0, -1))
+    .domain(breaks.slice(1, 6))
     .range(chroma.scale(chroma.brewer[config.essential.colour_palette]).colors(config.essential.numberOfBreaks))
 
   // draw a legend, stealing code from simple maps template
