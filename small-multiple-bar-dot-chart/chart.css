@@ -1,4 +1,18 @@
-div.plot{
+div.plots {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+}
+
+p.grouplabels {
+  font-weight: 600;
+}
+
+div.plot {
+  display: flex;
+  flex-direction: column;
+}
+
+p.plotname{
+  flex-grow: 1
 }

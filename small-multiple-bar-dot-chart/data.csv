@@ -1,17 +1,45 @@
 name,group,plot,series,value
-Christian ,Countries,England,2011,93.81786838
-Christian ,Countries,England,2021,32.89214576
-Christian ,Countries,Wales,2011,71.1818368
-Christian ,Countries,Wales,2021,11.34076049
-Non-Christian,Countries,England,2011,55.43581945
-Non-Christian,Countries,England,2021,44.69315791
-Non-Christian,Countries,Wales,2011,92.22515476
-Non-Christian,Countries,Wales,2021,60.72370889
-Christian ,Regions,North West,2011,66.62355083
-Christian ,Regions,North West,2021,3.288172326
-Christian ,Regions,South West,2011,66.72800468
-Christian ,Regions,South West,2021,24.45142772
-Non-Christian,Regions,North West,2011,35.73139698
-Non-Christian,Regions,North West,2021,35.77223386
-Non-Christian,Regions,South West,2011,42.51518003
-Non-Christian,Regions,South West,2021,61.79518256
+Christian ,Countries,England,2011,72.99443405
+Christian ,Countries,England,2021,16.84877991
+Christian ,Countries,Wales,2011,52.5414577
+Christian ,Countries,Wales,2021,89.28243265
+Non-Christian,Countries,England,2011,29.89580252
+Non-Christian,Countries,England,2021,79.85066794
+Non-Christian,Countries,Wales,2011,13.33402477
+Non-Christian,Countries,Wales,2021,78.11363688
+Christian ,Regions,North West,2011,82.13875594
+Christian ,Regions,North West,2021,41.46327862
+Non-Christian,Regions,North West,2011,70.32044099
+Non-Christian,Regions,North West,2021,26.44322024
+Christian ,Regions,North East,2011,92.95868127
+Christian ,Regions,North East,2021,6.563672527
+Non-Christian,Regions,North East,2011,45.57819737
+Non-Christian,Regions,North East,2021,96.59838389
+Christian ,Regions,Yorkshire and the Humber,2011,74.51227311
+Christian ,Regions,Yorkshire and the Humber,2021,13.0813387
+Non-Christian,Regions,Yorkshire and the Humber,2011,5.415155257
+Non-Christian,Regions,Yorkshire and the Humber,2021,6.572260349
+Christian ,Regions,East Midlands,2011,86.27975475
+Christian ,Regions,East Midlands,2021,96.30207688
+Non-Christian,Regions,East Midlands,2011,43.68073319
+Non-Christian,Regions,East Midlands,2021,3.041561001
+Christian ,Regions,West Midlands,2011,44.02094266
+Christian ,Regions,West Midlands,2021,7.047432643
+Non-Christian,Regions,West Midlands,2011,36.25027299
+Non-Christian,Regions,West Midlands,2021,72.32377538
+Christian ,Regions,South West,2011,73.72284834
+Christian ,Regions,South West,2021,91.48481464
+Non-Christian,Regions,South West,2011,47.63858667
+Non-Christian,Regions,South West,2021,78.45813454
+Christian ,Regions,South East,2011,23.69756941
+Christian ,Regions,South East,2021,74.09741936
+Non-Christian,Regions,South East,2011,61.18558113
+Non-Christian,Regions,South East,2021,39.90344633
+Christian ,Regions,London,2011,69.37868128
+Christian ,Regions,London,2021,60.93330419
+Non-Christian,Regions,London,2011,84.43513953
+Non-Christian,Regions,London,2021,60.87545133
+Christian ,Regions,East of England,2011,57.65994544
+Christian ,Regions,East of England,2021,7.822237595
+Non-Christian,Regions,East of England,2011,52.69721274
+Non-Christian,Regions,East of England,2021,21.16006963
