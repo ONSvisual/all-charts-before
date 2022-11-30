@@ -28,6 +28,7 @@ body
 /* required */
   {
   font-family: 'Open Sans', sans-serif;
+  font-feature-settings: "salt" 1;
   font-weight: 400;
   max-width: 700px;
   margin: 0px auto;
@@ -38,6 +39,7 @@ text
   {
 
   font-family: 'Open Sans', sans-serif;
+  font-feature-settings: "salt" 1;
   font-weight: 400;
 }
 
