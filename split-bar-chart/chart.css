@@ -1,0 +1,56 @@
+div.plots{
+    padding-bottom:20px;
+}
+
+div.plots p.plot--title{
+    font-weight: 700;
+    margin-bottom:0;
+}
+
+div.column{
+    padding-right:10px;
+    display:inline-block
+}
+
+div.rowLabel span{
+    font-size: 14px;
+    color:#414042;
+    text-align: right;
+    vertical-align: middle;
+}
+
+div.column span{
+    font-weight: 600;
+    font-size: 14px;
+    color:#414042;
+}
+
+div.splitBar-inner--background{
+    background: #ececec;
+    height:30px;
+}
+
+div.splitBars{
+    margin-right: -10px;
+}
+
+div.splitBar-row{
+    display: flex;
+    align-items: center;
+    margin-bottom:10px;
+}
+
+div.splitBar{
+ padding-right: 10px;
+ display:inline-block
+}
+
+div.splitBar-bar--value{
+    position:absolute;
+    top:0;
+    height:100%;
+}
+
+div.splitBar-bar--label span{
+    color:white;
+}
