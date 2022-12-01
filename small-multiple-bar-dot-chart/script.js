@@ -51,7 +51,7 @@ function drawGraphic() {
 
   series = [...new Set(graphic_data.map(d => d.name))]
 
-  height = ((config.optional.seriesHeight[size] * series.length) + (10 * (series.length - 1)) + 12) + margin.top + margin.bottom
+  height = ((config.optional.seriesHeight[size] * series.length) + (10 * (series.length - 1)) + 12)
 
 
   // create scales
