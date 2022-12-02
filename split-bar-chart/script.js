@@ -24,6 +24,12 @@ function drawGraphic() {
 
   formatNo = d3.format(config.numberFormat)
 
+  // set up scale
+  x = d3.scaleLinear()
+  .range([0,100])
+  .domain([d3.min([0,d3.min(graphic_data,d=>+d.value)]),d3.max(graphic_data,d=>+d.value)])
+
+
   // nest data
   groupedData = d3.groups(graphic_data, d => d.plot, d => d.ycategory)
 
@@ -76,6 +82,7 @@ function drawGraphic() {
   .style('width',config.rowWidth+'px')
   .style('display','inline-block')
   .append('span')
+  .style('text-align','right')
   .html(d=>d[0])
 
   // then create another div to hold all split bars
@@ -92,23 +99,59 @@ function drawGraphic() {
   .style('padding-right','8px')
 
   // divs for inside the splitBar
-  splitBar.append('div').attr('class','splitBar-inner')
+  splitBarInner=splitBar.append('div').attr('class','splitBar-inner')
   // then div for the background
   .append('div')
   .attr('class','splitBar-inner--background')
   .style('position','relative')
-  // then div for the value
-  .append('div')
+
+  splitBarInner.append('div')
   .attr('class','splitBar-bar--value')
-  .style('left','0%')
-  .style('right','34%')
+  .style('left',0)
+  .style('width',x(0)+"%")
+  .style('border-right',"1.5px solid #b3b3b3")
+  .style('height',"calc(100% + 15px)")
+  .style('top',"-8px")
+
+  // then div for the value
+  splitBarInner.append('div')
+  .attr('class','splitBar-bar--value')
+  .style('left',d=>+d.value>0 ? x(0)+"%" : x(+d.value)+"%")
+  .style('right',d=>+d.value>0 ? 100-x(+d.value)+"%" : (100-x(0))+"%")
   .style('background','#206095')
   .append('div')
+  // then a div to hold the value
   .attr('class','splitBar-bar--label')
+  .style('text-align','left')
+  .style('padding','0 5px')
+  .style('margin-left',d=>Math.abs(+x(d.value)-x(0))<20 ? "100%" : "calc(100% - 35px)")
+  .style('line-height','27px')
   .append('span')
+  .style('color',d=>Math.abs(+x(d.value)-x(0))<20 ? "#222222": "#fff")
+
   .html(d=>formatNo(d.value))
 
+  // final div for the zero indicator
+  finalrow=chart.append('div')
+  // first div as separate
+  finalrow.append('div').attr('class','rowLabel')
+  .style('width',config.rowWidth+'px')
+  .style('display','inline-block')
 
+  finalrow.append('div')
+  .style('margin-right','-8px')
+  .style('width',`calc(100% - ${config.rowWidth}px)`)
+  .style('display','inline-block')
+  .selectAll('div.column').data(xcategories)
+  .join('div')
+  .attr('class', 'column')
+  .style('width',100/xcategories.length+'%')
+  .style('padding-right','8px')
+  .style('display','inline-block')
+  .append('span')
+  .style('position','relative')
+  .style('left',x(0)+"%")
+  .html(0)
 
 
 

@@ -17,6 +17,9 @@ div.rowLabel span{
     color:#414042;
     text-align: right;
     vertical-align: middle;
+    display:block;
+    padding-right:10px;
+    height:30px;
 }
 
 div.column span{
@@ -53,4 +56,8 @@ div.splitBar-bar--value{
 
 div.splitBar-bar--label span{
     color:white;
+}
+
+div.splitBar-label{
+    margin-bottom:10px;
 }
