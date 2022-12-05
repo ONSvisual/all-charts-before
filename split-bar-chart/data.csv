@@ -8,8 +8,8 @@ Country,Wales,2 cars or vans,13.759689
 Region,London,No cars or vans,80.56518156
 Region,London,1 car or van,67.74719392
 Region,London,2 cars or vans,44.40901046
-Region,South East,No cars or vans,49.16281699
-Region,South East,1 car or van,72.58837136
+Region,South East,No cars or vans,-49.16281699
+Region,South East,1 car or van,-72.58837136
 Region,South East,2 cars or vans,63.46911119
 Region,South West,No cars or vans,45.76204946
 Region,South West,1 car or van,67.3660344
@@ -17,7 +17,7 @@ Region,South West,2 cars or vans,99.91081304
 Region,East of England,No cars or vans,59.9605932
 Region,East of England,1 car or van,21.77797177
 Region,East of England,2 cars or vans,27.31446944
-Region,East Midlands,No cars or vans,12.77125895
+Region,East Midlands,No cars or vans,-12.77125895
 Region,East Midlands,1 car or van,27.94089648
 Region,East Midlands,2 cars or vans,51.54980878
 Region,West Midlands,No cars or vans,44.79812224
