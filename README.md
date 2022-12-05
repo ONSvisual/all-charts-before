@@ -8,4 +8,6 @@ Charts made so far
 - [heatmap](https://onsvisual.github.io/census-charts/heatmap/index.html)
 - [heatmap: by column](https://onsvisual.github.io/census-charts/heatmap-per-column/index.html)
 - [range plot with groups](https://onsvisual.github.io/census-charts/range-plot/index.html)
+- [split bar chart](https://onsvisual.github.io/census-charts/split-bar-chart/index.html)
 - [stacked horizontal bar chart](https://onsvisual.github.io/census-charts/stacked-horizontal-bar-chart/index.html)
+
