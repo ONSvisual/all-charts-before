@@ -93,7 +93,7 @@ function drawGraphic() {
       {
         if (d == 0) {
           d3.select(this)
-          .attr('id', 'zero-line')
+          .attr('class', 'zero-line')
             };
       })
 
