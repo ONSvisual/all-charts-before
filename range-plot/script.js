@@ -27,16 +27,16 @@ function drawGraphic() {
 
   groups = d3.groups(graphic_data, (d) => d.group)
 
-  if(config.essential.xDomain=="auto"){
-    let min=1000000
-    let max=0
-    for(i=2;i<graphic_data.columns.length;i++){
-      min=d3.min([min,d3.min(graphic_data,(d)=>+d[graphic_data.columns[i]])])
-      max=d3.max([max,d3.max(graphic_data,(d)=>+d[graphic_data.columns[i]])])
+  if (config.essential.xDomain == "auto") {
+    let min = 1000000
+    let max = 0
+    for (i = 2; i < graphic_data.columns.length; i++) {
+      min = d3.min([min, d3.min(graphic_data, (d) => +d[graphic_data.columns[i]])])
+      max = d3.max([max, d3.max(graphic_data, (d) => +d[graphic_data.columns[i]])])
     }
-    xDomain=[min,max]
+    xDomain = [min, max]
   } else {
-    xDomain=config.essential.xDomain
+    xDomain = config.essential.xDomain
   }
 
 
@@ -50,7 +50,7 @@ function drawGraphic() {
     .domain(Object.keys(config.essential.legendLabels))
 
   // create the y scale in groups
-  groups.map(function(d) {
+  groups.map(function (d) {
     //height
     d[2] = config.optional.seriesHeight[size] * d[1].length
 
@@ -60,7 +60,7 @@ function drawGraphic() {
       .range([0, d[2]])
       .domain(d[1].map(d => d.name));
     //y axis generator
-    d[4]  = d3.axisLeft(d[3])
+    d[4] = d3.axisLeft(d[3])
       .tickSize(0)
       .tickPadding(10);
   });
@@ -74,89 +74,105 @@ function drawGraphic() {
     .join('div')
 
 
-  divs.append('p').attr('class','groupLabels').html((d) => d[0])
+  divs.append('p').attr('class', 'groupLabels').html((d) => d[0])
 
   svgs = divs.append('svg')
-    .attr('class','chart')
+    .attr('class', 'chart')
     .attr('height', (d) => d[2] + margin.top + margin.bottom)
     .attr('width', chart_width + margin.left + margin.right)
 
   charts = svgs.append('g')
-    .attr('transform','translate('+margin.left+','+margin.top+')')
+    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 
-  charts.each(function(d) {
+  charts.each(function (d) {
     d3.select(this)
-    .append('g')
-    .attr('class','y axis')
-    .call(d[4])
-    .selectAll('text')
-    .call(wrap,margin.left-10)
+      .append('g')
+      .attr('class', 'y axis')
+      .call(d[4])
+      .selectAll('text')
+      .call(wrap, margin.left - 10)
 
     d3.select(this)
-    .append('g')
-    .attr('transform',(d)=>'translate(0,'+d[2]+')')
-    .attr('class','x axis')
-    .each(function(){
-      d3.select(this).call(xAxis.tickSize(-d[2]))
-      .selectAll('line').each(function(e)
-        {
-          if (e == 0) {
-            d3.select(this)
-            .attr('class', 'zero-line')
-          };
-        })
-    })
+      .append('g')
+      .attr('transform', (d) => 'translate(0,' + d[2] + ')')
+      .attr('class', 'x axis')
+      .each(function () {
+        d3.select(this).call(xAxis.tickSize(-d[2]))
+          .selectAll('line').each(function (e) {
+            if (e == 0) {
+              d3.select(this)
+                .attr('class', 'zero-line')
+            };
+          })
+      })
 
   })
 
   charts.selectAll('line.between')
-    .data((d)=>d[1])
+    .data((d) => d[1])
     .join('line')
-    .attr('class','between')
-    .attr('x1',(d)=>x(d.min))
-    .attr('x2',(d)=>x(d.max))
-    .attr('y1',(d,i)=>groups.filter(e=>e[0]==d.group)[0][3](d.name))
-    .attr('y2',(d,i)=>groups.filter(e=>e[0]==d.group)[0][3](d.name))
-    .attr('stroke','#c6c6c6')
-    .attr('stroke-width','3px')
+    .attr('class', 'between')
+    .attr('x1', (d) => x(d.min))
+    .attr('x2', (d) => x(d.max))
+    .attr('y1', (d, i) => groups.filter(e => e[0] == d.group)[0][3](d.name))
+    .attr('y2', (d, i) => groups.filter(e => e[0] == d.group)[0][3](d.name))
+    .attr('stroke', '#c6c6c6')
+    .attr('stroke-width', '3px')
 
-  graphic_data.columns.slice(-2).map((e)=>
-    charts.selectAll('circle.'+e)
-      .data((d)=>d[1])
-      .join('circle')
-      .attr('class',e)
-      .attr('cx',(d)=>x(d[e]))
-      .attr('cy',(d,i)=>groups.filter(f=>f[0]==d.group)[0][3](d.name))
-      .attr('r',6)
-      .attr('fill',colour(e))
 
-  )
+  charts.selectAll('circle.min')
+    .data(d => d[1])
+    .join('circle')
+    .attr('class', 'min')
+    .attr('cx', d => x(d.min))
+    .attr('cy', d => groups.filter(f => f[0] == d.group)[0][3](d.name))
+    .attr('r', 6)
+    .attr('fill', colour('min'))
 
-  graphic_data.columns.slice(-2).map((e)=>
-    charts.selectAll('text.'+e)
-      .data((d)=>d[1])
-      .join('text')
-      .attr('class','dataLabels')
-      .attr('x',(d)=>x(d[e]))
-      .attr('y',(d,i)=>groups.filter(f=>f[0]==d.group)[0][3](d.name))
-      .text((d)=>d3.format(config.essential.numberFormat)(d[e]))
-      .attr('fill',colour(e))
-      .attr('dy',6)
-      .attr('dx',()=> e=='min' ? -8 : 8)
-      .attr('text-anchor',() => e=="min" ? "end" : "start")
+  charts.selectAll('circle.max')
+    .data(d => d[1])
+    .join('circle')
+    .attr('class', 'max')
+    .attr('cx', d => x(d.max))
+    .attr('cy', d => groups.filter(f => f[0] == d.group)[0][3](d.name))
+    .attr('r', 6)
+    .attr('fill', colour('max'))
 
-  )
+  charts.selectAll('text.min')
+    .data((d) => d[1])
+    .join('text')
+    .attr('class', 'dataLabels')
+    .attr('x', d => x(d.min))
+    .attr('y', d => groups.filter(f => f[0] == d.group)[0][3](d.name))
+    .text((d) => d3.format(config.essential.numberFormat)(d.min))
+    .attr('fill', colour('min'))
+    .attr('dy', 6)
+    .attr('dx', (d) => +d.min < +d.max ? -8 : 8)
+    .attr('text-anchor', (d) => +d.min < +d.max ? "end" : "start")
+
+  charts.selectAll('text.max')
+    .data((d) => d[1])
+    .join('text')
+    .attr('class', 'dataLabels')
+    .attr('x', d => x(d.max))
+    .attr('y', d => groups.filter(f => f[0] == d.group)[0][3](d.name))
+    .text((d) => d3.format(config.essential.numberFormat)(d.max))
+    .attr('fill', colour('max'))
+    .attr('dy', 6)
+    .attr('dx', (d) => +d.min > +d.max ? -8 : 8)
+    .attr('text-anchor', (d) => +d.min > +d.max ? "end" : "start")
+
 
   // This does the x-axis label
-  charts.each(function(d,i){
-    if(i==charts._groups.length){
+  charts.each(function (d, i) {
+    if (i == groups.length - 1) {
       d3.select(this)
-      .append('text')
-      .attr('x',chart_width)
-      .attr('y',(d)=>d[2]+35)
-      .attr('class','axis--label')
-      .text(config.essential.xAxisLabel)
-      .attr('text-anchor','end')
+        .append('text')
+        .attr('x', chart_width)
+        .attr('y', (d) => d[2] + 35)
+        .attr('class', 'axis--label')
+        .text(config.essential.xAxisLabel)
+        .attr('text-anchor', 'end')
     }
   })
 
@@ -171,12 +187,12 @@ function drawGraphic() {
     .attr('class', 'legend--item')
 
   legenditem.append('div').attr('class', 'legend--icon')
-    .style('background-color', function(d) {
+    .style('background-color', function (d) {
       return d[1]
     })
 
   legenditem.append('div')
-    .append('p').attr('class', 'legend--text').html(function(d) {
+    .append('p').attr('class', 'legend--text').html(function (d) {
       return d[0]
     })
 
@@ -191,7 +207,7 @@ function drawGraphic() {
 }
 
 function wrap(text, width) {
-  text.each(function() {
+  text.each(function () {
     var text = d3.select(this),
       words = text.text().split(/\s+/).reverse(),
       word,
@@ -213,7 +229,7 @@ function wrap(text, width) {
       }
     }
     var breaks = text.selectAll("tspan").size();
-    text.attr("y", function() {
+    text.attr("y", function () {
       return -6 * (breaks - 1);
     });
   });
