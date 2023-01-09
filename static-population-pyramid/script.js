@@ -142,7 +142,7 @@ function drawGraphic() {
 
   // add chart titles
   legend.append('div')
-  .style('width',(chart_width+margin.centre)+"px")
+  .style('width',(chart_width+margin.centre+margin.left)+"px")
   .style('color',config.essential.colour_palette[0])
   .append('p')
   .attr('class','chartLabel')
