@@ -107,6 +107,12 @@ g.tick line.zero-line
 }
 
 
+/* this sets the style for lines charts */
+path.line{
+  fill:none;
+}
+
+
 /* source */
 h5#source {
   font-size: 16px;

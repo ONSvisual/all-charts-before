@@ -1,5 +1,6 @@
 const graphic = d3.select('#graphic');
-const legend = d3.select('#titles')
+const titles = d3.select('#titles')
+const legend = d3.select('#legend')
 var pymChild = null;
 
 function drawGraphic() {
@@ -30,6 +31,9 @@ function drawGraphic() {
     maleTotal = d3.sum(graphic_data, d => d.maleBar)
     femaleTotal = d3.sum(graphic_data, d => d.femaleBar)
 
+    comparisonMaleTotal = d3.sum(comparison_data, d => d.maleBar)
+    comparisonFemaleTotal = d3.sum(comparison_data, d => d.femaleBar)
+
     // turn into tidy data
     graphic_data = graphic_data.map(function (d) {
       return [{
@@ -42,6 +46,14 @@ function drawGraphic() {
         value: d.maleBar / maleTotal
       }]
     }).flatMap(d => d);
+
+    comparison_data = comparison_data.map(function(d){
+      return {
+        age:d.age,
+        malePercent: d.maleBar/comparisonMaleTotal,
+        femalePercent:d.femaleBar/comparisonFemaleTotal
+      }
+    })
   } else {
     // turn into tidy data
     graphic_data = graphic_data.map(function (d) {
@@ -57,7 +69,7 @@ function drawGraphic() {
     }).flatMap(d => d)
   }
 
-  maxPercentage = d3.max(graphic_data, d => d.value)
+  maxPercentage = d3.max([d3.max(graphic_data, d => d.value),d3.max(comparison_data,d=>d3.max([d.femaleBar,d.maleBar]))])
 
   // set up widths
   fullwidth = parseInt(graphic.style("width"))
@@ -86,6 +98,18 @@ function drawGraphic() {
       .attr('width', fullwidth)
       .append('g')
       .attr('transform','translate('+margin.left+','+margin.top+')')
+
+
+  // create line generators
+  lineLeft = d3.line()
+  .curve(d3.curveStepBefore)
+  .x(d=>xLeft(d.femalePercent))
+  .y(d=>y(d.age)+y.bandwidth())
+  
+  lineRight = d3.line()
+  .curve(d3.curveStepBefore)
+  .x(d=>xRight(d.malePercent))
+  .y(d=>y(d.age)+y.bandwidth())
 
   //add x-axis left
   svg.append('g').attr('class','x axis')
@@ -120,6 +144,19 @@ function drawGraphic() {
   .call(d3.axisRight(y).tickSize(0).tickValues(y.domain().filter((d,i)=>!(i%10))))
   .selectAll('text').each(function(){d3.select(this).attr('text-anchor','middle')})
 
+  //draw comparison lines
+  comparisons = svg.append('g')
+  
+  comparisons.append('path').attr('class','line')
+  .attr('d',lineLeft(comparison_data)+'l 0 '+-y.bandwidth())
+  .attr('stroke','black')
+  .attr('stroke-width','2px')
+
+  comparisons.append('path').attr('class','line')
+  .attr('d',lineRight(comparison_data)+'l 0 '+-y.bandwidth())
+  .attr('stroke','black')
+  .attr('stroke-width','2px')
+
   //add x-axis titles
   svg.append('text')
   .attr('transform','translate('+(fullwidth-margin.left-margin.right)+','+(height+30)+')')
@@ -141,19 +178,40 @@ function drawGraphic() {
   .text("Age")
 
   // add chart titles
-  legend.append('div')
+  titles.append('div')
   .style('width',(chart_width+margin.centre+margin.left)+"px")
   .style('color',config.essential.colour_palette[0])
   .append('p')
   .attr('class','chartLabel')
   .html("Females")
 
-  legend.append('div')
+  titles.append('div')
   .style('width',(chart_width)+"px")
   .append('p')
   .style('color',config.essential.colour_palette[1])
   .attr('class','chartLabel')
   .html("Males")
+
+  // set up the legend
+    // Set up the legend
+    var legenditem = d3.select('#legend')
+    .selectAll('div.legend--item')
+    .data(d3.zip(Object.values(config.essential.legendLabels), config.essential.colour_palette))
+    .enter()
+    .append('div')
+    .attr('class', 'legend--item')
+
+  legenditem.append('div').attr('class', 'legend--icon')
+    .style('background-color', function (d) {
+      return d[1]
+    })
+
+  legenditem.append('div')
+    .append('p').attr('class', 'legend--text').html(function (d) {
+      return d[0]
+    })
+
+
 
   //create link to source
   d3.select("#source")
@@ -165,10 +223,13 @@ function drawGraphic() {
   }
 }//end draw graphic
 
-d3.csv(config.essential.graphic_data_url, d3.autoType)
-  .then(data => {
+Promise.all([
+  d3.csv(config.essential.graphic_data_url, d3.autoType),
+  d3.csv(config.essential.comparison_data,d3.autoType)
+]).then(([data,datab]) => {
     //load chart data
-    graphic_data = data
+    graphic_data = data;
+    comparison_data = datab;
 
     //use pym to create iframed chart dependent on specified variables
     pymChild = new pym.Child({
