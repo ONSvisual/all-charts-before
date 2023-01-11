@@ -1,0 +1,18 @@
+.chartLabel {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+div#titles {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+p {
+    margin: 0;
+}
+
+/* buttons */
+div#select{
+    margin-bottom: 20px;
+}
