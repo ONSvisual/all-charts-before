@@ -1,0 +1,53 @@
+.chartLabel {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+div#titles {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+p {
+    margin: 0;
+}
+
+/* buttons */
+fieldset {
+    border: none;
+    padding: 0 0 0 0;
+    margin: 10px 0 10px 3px;
+}
+
+input[type="radio"] {
+    opacity: 0;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+}
+
+.grid-cell {
+    display: block;
+    border: 2px solid #206095;
+}
+
+.grid-cell label {
+    font-size: 16px;
+    padding-right: 17px;
+    padding-left: 17px;
+    display: block;
+    max-width: 240px;
+    min-height: 100%;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    color: #206095;
+}
+
+input[type="radio"]:checked+label {
+    color: white;
+    background: #206095;
+}
