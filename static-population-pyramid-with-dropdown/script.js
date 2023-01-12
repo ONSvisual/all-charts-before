@@ -30,8 +30,8 @@ function drawGraphic() {
     .attr("class", "chosen-select");
 
   optns.append("option")
-  .attr("value","first")
-  .text("");
+  // .attr("value","first")
+  // .text("");
 
   optns.selectAll("p").data(dropdownData).join("option")
     .attr("value", function (d) { return d.cd })
@@ -45,14 +45,36 @@ function drawGraphic() {
   $('#areaselect').on('change', function () {
 
     if ($('#areaselect').val() != "") {
-  
+      d3.select('#bars').selectAll('rect')
+      .data(tidydataPercentage.filter(d=>d.AREACD==$('#areaselect').val()))
+        .join('rect')
+        .attr('fill', d => d.sex === "female" ? config.essential.colour_palette[0] : config.essential.colour_palette[1])
+        .attr("y", d => y(d.age))
+        .attr("height", y.bandwidth())      
+        .transition()
+        .attr("x", d => d.sex === "female" ? xLeft(d.percentage) : xRight(0))
+        .attr("width", d => d.sex === "female" ? xLeft(0) - xLeft(d.percentage) : xRight(d.percentage) - xRight(0))
+
+        d3.select('button.abbr').on('keypress',function(evt){
+          if(evt.keyCode==13 || evt.keyCode==32){
+            evt.preventDefault();
+            clear()
+          }
+        })
     }
     else {//on clear
-  
+      clear()
     }
   });
 
+ function clear(){
+  d3.select('#bars').selectAll('rect')
+  .transition()
+  .attr("x", d => d.sex === "female" ? xLeft(0) : xRight(0))
+  .attr("width", 0)
 
+  $("#areaselect").val(null).trigger('chosen:updated');
+ }
 
 
   var threshold_md = config.optional.mediumBreakpoint;
@@ -79,13 +101,13 @@ function drawGraphic() {
     tidydata = pivot(graphic_data, graphic_data.columns.slice(3), 'age', 'value')
 
     //rollup to work out totals 
-    rolledUp = d3.rollup(tidydata, v => d3.sum(v, d => d.value), d => d.AREACD, d => d.Sex)
+    rolledUp = d3.rollup(tidydata, v => d3.sum(v, d => d.value), d => d.AREACD, d => d.sex)
 
     // then use total to work out percentages
     tidydataPercentage = tidydata.map(function (d) {
       return {
         ...d,
-        percentage: d.value / rolledUp.get(d.AREACD).get(d.Sex)
+        percentage: d.value / rolledUp.get(d.AREACD).get(d.sex)
       }
     })
 
@@ -168,15 +190,15 @@ function drawGraphic() {
     })
 
   // add bars
-  // svg.append('g')
-  //   .selectAll('rect')
-  //   .data(graphic_data)
-  //   .join('rect')
-  //   .attr('fill', d => d.sex === "female" ? config.essential.colour_palette[0] : config.essential.colour_palette[1])
-  //   .attr("x", d => d.sex === "female" ? xLeft(d.value) : xRight(0))
-  //   .attr("y", d => y(d.age))
-  //   .attr("width", d => d.sex === "female" ? xLeft(0) - xLeft(d.value) : xRight(d.value) - xRight(0))
-  //   .attr("height", y.bandwidth());
+  svg.append('g').attr('id','bars')
+  .selectAll('rect')
+  .data(tidydataPercentage.filter(d=>d.AREACD==graphic_data[0].AREACD))
+  .join('rect')
+  .attr('fill', d => d.sex === "female" ? config.essential.colour_palette[0] : config.essential.colour_palette[1])
+  .attr("y", d => y(d.age))
+  .attr("height", y.bandwidth())
+  .attr("x", d => d.sex === "female" ? xLeft(0) : xRight(0))
+  .attr("width", 0)
 
   //add y-axis
   svg.append('g').attr('class', 'y axis')
