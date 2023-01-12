@@ -14,14 +14,13 @@ function drawGraphic() {
 
   // build dropdown, first unique areas
   // https://stackoverflow.com/questions/38613654/javascript-find-unique-objects-in-array-based-on-multiple-properties
-
   dropdownData = graphic_data.map(function (d) { return { nm: d.AREANM, cd: d.AREACD } }).filter(function (a) {
     var key = a.nm + '|' + a.cd;
     if (!this[key]) {
       this[key] = true;
       return true;
     }
-  }, Object.create(null)).sort((a,b)=>d3.ascending(a.nm,b.nm));
+  }, Object.create(null)).sort((a,b)=>d3.ascending(a.nm,b.nm));//sorted alphabetically
 
   // // Build option menu 
   const optns = d3.select("#select").append("div").attr("id", "sel").append("select")
@@ -30,18 +29,20 @@ function drawGraphic() {
     .attr("class", "chosen-select");
 
   optns.append("option")
-  // .attr("value","first")
-  // .text("");
 
+  //join unique names and codes to build select
   optns.selectAll("p").data(dropdownData).join("option")
     .attr("value", function (d) { return d.cd })
     .text(function (d) { return d.nm });
 
+  // start the chosen dropdown  
   $('#areaselect').chosen({ placeholder_text_single: "Select an area", allow_single_deselect: true })
 
+  //add some more accessibility stuff
   d3.select('input.chosen-search-input').attr('id', 'chosensearchinput')
   d3.select('div.chosen-search').insert('label', 'input.chosen-search-input').attr('class', 'visuallyhidden').attr('for', 'chosensearchinput').html("Type to select an area")
 
+  // draw the bars on change
   $('#areaselect').on('change', function () {
 
     if ($('#areaselect').val() != "") {
@@ -55,6 +56,7 @@ function drawGraphic() {
         .attr("x", d => d.sex === "female" ? xLeft(d.percentage) : xRight(0))
         .attr("width", d => d.sex === "female" ? xLeft(0) - xLeft(d.percentage) : xRight(d.percentage) - xRight(0))
 
+        // clear the chart via keyboard
         d3.select('button.abbr').on('keypress',function(evt){
           if(evt.keyCode==13 || evt.keyCode==32){
             evt.preventDefault();
@@ -66,15 +68,6 @@ function drawGraphic() {
       clear()
     }
   });
-
- function clear(){
-  d3.select('#bars').selectAll('rect')
-  .transition()
-  .attr("x", d => d.sex === "female" ? xLeft(0) : xRight(0))
-  .attr("width", 0)
-
-  $("#areaselect").val(null).trigger('chosen:updated');
- }
 
 
   var threshold_md = config.optional.mediumBreakpoint;
@@ -274,10 +267,6 @@ function drawGraphic() {
       return d.text
     })
 
-  function onchange(value) {
-
-  }
-
   //create link to source
   d3.select("#source")
     .text("Source: " + config.essential.sourceText)
@@ -301,6 +290,15 @@ Promise.all([
     renderCallback: drawGraphic
   });
 });
+
+function clear(){
+  d3.select('#bars').selectAll('rect')
+  .transition()
+  .attr("x", d => d.sex === "female" ? xLeft(0) : xRight(0))
+  .attr("width", 0)
+
+  $("#areaselect").val(null).trigger('chosen:updated');
+ }
 
 // bostock pivot longer function from https://observablehq.com/d/3ea8d446f5ba96fe
 function pivot(data, columns, name, value) {
