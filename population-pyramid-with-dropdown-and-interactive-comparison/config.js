@@ -4,13 +4,22 @@ config = {
     sourceText: "Office for National Statistics – Census 2021",
     graphic_data_url: "data.csv",
     comparison_data: "comparison.csv",
+    comparison_time_data: "comparison-time.csv",
+    buttonLabels:["Compared to England and Wales","Compared to 2011"],
     dataType: "numbers",
     // dataType can be a 'percentage' or 'number' where it works out the percentage in the script
-    colour_palette: ["#9A86E9", "#157e7d"],
+    colour_palette: ["#9A86E9", "#157e7d","#657b95",'#2e7078'],
     // this is the darker palette ["#933FC8","#30A3B1"]
     // this is the lighter palette for reference lines ["#9A86E9", "#30A3B1"],
-    comparison_colour_palette:["#657b95",'#2e7078'],
-    legend: ['Redcar and Cleveland','England and Wales']
+    legend: [{
+      type: 'circle',
+      colour: '#8D8C8E',
+      text: 'Selected area'
+    }, {
+      type: 'reference',
+      colour: 'black',
+      text: 'England and Wales'
+    }]
   },
   "optional": {
     "margin": {

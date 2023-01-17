@@ -57,7 +57,7 @@ input[type='radio']:not(:checked)+label:hover {
     cursor: pointer;
 }
 
-input[type='radio']:focus-within+label {
+input[type='radio']:focus-visible+label {
     position: relative box-shadow: 0 0 0px 3pt orange;
     outline: 2px dotted transparent;
     z-index: 10;
