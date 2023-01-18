@@ -204,12 +204,12 @@ function drawGraphic() {
 
   comparisons.append('path').attr('class', 'line').attr('id', 'comparisonLineLeft')
     .attr('d', lineLeft(comparison_data) + 'l 0 ' + -y.bandwidth())
-    .attr('stroke', 'black')
+    .attr('stroke', config.essential.comparison_colour_palette[0])
     .attr('stroke-width', '2px')
 
   comparisons.append('path').attr('class', 'line').attr('id', 'comparisonLineRight')
     .attr('d', lineRight(comparison_data) + 'l 0 ' + -y.bandwidth())
-    .attr('stroke', 'black')
+    .attr('stroke', config.essential.comparison_colour_palette[1])
     .attr('stroke-width', '2px')
 
   //add x-axis titles
@@ -232,40 +232,38 @@ function drawGraphic() {
     .attr('text-anchor', 'middle')
     .text("Age")
 
-  // add chart titles
-  titles.append('div')
-    .style('width', (chart_width + margin.centre + margin.left) + "px")
-    .style('color', config.essential.colour_palette[0])
-    .append('p')
-    .attr('class', 'chartLabel')
-    .html("Females")
-
-  titles.append('div')
-    .style('width', (chart_width) + "px")
-    .append('p')
-    .style('color', config.essential.colour_palette[1])
-    .attr('class', 'chartLabel')
-    .html("Males")
-
 
   // Set up the legend
-  var legenditem = d3.select('#legend')
-    .selectAll('div.legend--item')
-    .data(config.essential.legend)
-    .enter()
-    .append('div')
-    .attr('class', 'legend--item')
+  widths=[chart_width + margin.centre + margin.left,chart_width+margin.right]  
 
-  legenditem.append('div')
-    .attr('class', d => d.type == 'circle' ? 'legend--icon--circle' : 'legend--icon--refline')
-    .style('background-color', function (d) {
-      return d.colour
-    })
+  legend.append('div') 
+  .attr('class','flex-row')
+  .selectAll('div')
+  .data(['Females','Males'])
+  .join('div')
+  .style('width', (d,i)=>widths[i]+ "px")
+  .append('div')
+  .attr('class', 'chartLabel')
+  .append('p').text(d=>d)
 
-  legenditem.append('div')
-    .append('p').attr('class', 'legend--text').html(function (d) {
-      return d.text
-    })
+  dataForLegend=[['x','x'],['y','y']] //dummy data
+
+  titleDivs=titles.selectAll('div')
+  .data(dataForLegend)
+  .join('div')
+  .attr('class','flex-row')
+  .selectAll('div')
+  .data(d=>d)
+  .join('div')
+  .style('width', (d,i)=>widths[i]+ "px")
+  .append('div').attr('class', 'legend--item')
+
+  titleDivs.append('div')
+  .style('background-color',(d,i)=>d=='x' ? config.essential.colour_palette[i] : config.essential.comparison_colour_palette[i])
+  .attr('class',d=>d=='x' ? 'legend--icon--circle' : 'legend--icon--refline')
+
+  titleDivs.append('div')
+  .append('p').attr('class', 'legend--text').html(d=>d=='x' ? config.essential.legend[0] : config.essential.legend[1]) 
 
   //create link to source
   d3.select("#source")

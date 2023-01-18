@@ -61,14 +61,14 @@ function drawGraphic() {
         .attr('opacity',1)
         .transition()
         .attr('d', lineLeft(tidydataComparisonPercentage.filter(d=>d.AREACD==$('#areaselect').val()).filter(d=>d.sex=='female')) + 'l 0 ' + -y.bandwidth())
-        .attr('stroke', config.essential.colour_palette[2]) // set alternative colour here
+        .attr('stroke', config.essential.comparison_colour_palette[0])
         .attr('stroke-width', '2px')
     
         d3.select('#comparisonLineRight')
         .attr('opacity',1)
         .transition()
         .attr('d', lineRight(tidydataComparisonPercentage.filter(d=>d.AREACD==$('#areaselect').val()).filter(d=>d.sex=='male')) + 'l 0 ' + -y.bandwidth())
-        .attr('stroke',  config.essential.colour_palette[3])  // set alternative colour here
+        .attr('stroke',  config.essential.comparison_colour_palette[1])  // set alternative colour here
         .attr('stroke-width', '2px')
 
         // clear the chart via keyboard
@@ -259,18 +259,37 @@ function drawGraphic() {
     .text("Age")
 
     // Add titles and legend
-    titles.append('div')
-    .style('width', ((chart_width + margin.centre + margin.left ) + "px") )
-    .append('p')
-    .html("<div class='legend-title'>Female</div><svg height=20 width = 400><circle class='legend-circle'  cx=8 cy=14 r=6 fill='"+ config.essential.colour_palette[0]+"'/> <text fill='#414042' font-size='14' font-family='Open Sans' x='24' y='18'>2021</text></svg><br><svg height=25 width = 400><line class='legend-line' x1=2 x2=14 y1=14 y2=14 stroke='"+ config.essential.colour_palette[2]+"' stroke-width='2.5' stroke-linecap='round' /> <text fill='#414042' font-size='14' font-family='Open Sans' x='24' y='18'>2011</text></svg>")
+    widths=[chart_width + margin.centre + margin.left,chart_width+margin.right]  
 
-
-  titles.append('div')
-    .style('width', (chart_width) + "px")
-    .append('p')
-    .html("<div class='legend-title'>Males</div><svg height=20 width = 400><circle class='legend-circle'  cx=8 cy=14 r=6 fill='"+ config.essential.colour_palette[1]+"'/> <text fill='#414042' font-size='14' font-family='Open Sans' x='24' y='18'>2021</text></svg><br><svg height=25 width = 400><line class='legend-line' x1=2 x2=14 y1=14 y2=14 stroke='"+ config.essential.colour_palette[3]+"' stroke-width='2.5' stroke-linecap='round' /> <text fill='#414042' font-size='14' font-family='Open Sans' x='24' y='18'>2011</text></svg>")
-
- 
+    legend.append('div') 
+    .attr('class','flex-row')
+    .selectAll('div')
+    .data(['Females','Males'])
+    .join('div')
+    .style('width', (d,i)=>widths[i]+ "px")
+    .append('div')
+    .attr('class', 'chartLabel')
+    .append('p').text(d=>d)
+  
+    dataForLegend=[['x','x'],['y','y']] //dummy data
+  
+    titleDivs=titles.selectAll('div')
+    .data(dataForLegend)
+    .join('div')
+    .attr('class','flex-row')
+    .selectAll('div')
+    .data(d=>d)
+    .join('div')
+    .style('width', (d,i)=>widths[i]+ "px")
+    .append('div').attr('class', 'legend--item')
+  
+    titleDivs.append('div')
+    .style('background-color',(d,i)=>d=='x' ? config.essential.colour_palette[i] : config.essential.comparison_colour_palette[i])
+    .attr('class',d=>d=='x' ? 'legend--icon--circle' : 'legend--icon--refline')
+  
+    titleDivs.append('div')
+    .append('p').attr('class', 'legend--text').html(d=>d=='x' ? config.essential.legend[0] : config.essential.legend[1]) 
+  
 
 
 
