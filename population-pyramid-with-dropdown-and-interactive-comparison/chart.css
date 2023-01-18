@@ -23,3 +23,7 @@ div.legend--item div:last-child {
 div#select{
     margin-bottom: 20px;
 }
+
+.legend--icon--circle{
+    margin-right: 8px;
+}

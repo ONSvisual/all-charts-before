@@ -70,3 +70,7 @@ input[type='radio']:focus-visible+label {
     outline: 2px dotted transparent;
     z-index: 10;
 }
+
+.legend--icon--circle{
+    margin-right: 8px;
+}

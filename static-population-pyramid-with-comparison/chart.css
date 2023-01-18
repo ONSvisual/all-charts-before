@@ -19,3 +19,6 @@ div.legend--item div:last-child{
     flex-shrink: 0.5;
 }
 
+.legend--icon--circle{
+    margin-right: 8px;
+}

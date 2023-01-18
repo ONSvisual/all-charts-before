@@ -19,7 +19,11 @@ div.legend--item div:last-child {
     flex-shrink: 0.5;
 }
 
-/* buttons */
+/* dropdown */
 div#select{
     margin-bottom: 20px;
+}
+
+.legend--icon--circle{
+    margin-right: 8px;
 }
