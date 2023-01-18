@@ -67,6 +67,14 @@ function drawGraphic() {
         value: d.maleBar
       }]
     }).flatMap(d => d)
+
+    comparison_data = comparison_data.map(function (d) {
+      return {
+        age: d.age,
+        malePercent: d.maleBar,
+        femalePercent: d.femaleBar
+      }
+    })
   }
 
   maxPercentage = d3.max([d3.max(graphic_data, d => d.value), d3.max(comparison_data, d => d3.max([d.femaleBar, d.maleBar]))])
@@ -176,72 +184,36 @@ function drawGraphic() {
     .attr('text-anchor', 'middle')
     .text("Age")
 
-  // add chart titles
-    names=titles.append('div').attr('class','flex-row')
+  widths=[chart_width + margin.centre + margin.left,chart_width+margin.right]  
 
-    names.append('div')
-    .style('width', (chart_width + margin.centre + margin.left) + "px")
-    .append('p')
-    .attr('class', 'chartLabel')
-    .html("Females")
+  legend.append('div') 
+  .attr('class','flex-row')
+  .selectAll('div')
+  .data(['Females','Males'])
+  .join('div')
+  .style('width', (d,i)=>widths[i]+ "px")
+  .append('div')
+  .attr('class', 'chartLabel')
+  .append('p').text(d=>d)
 
-    //right title
-    names.append('div')
-    .style('width', (chart_width+margin.right) + "px")
-    .append('p')
-    .attr('class', 'chartLabel')
-    .html("Males")
+  dataForLegend=[['x','x'],['y','y']] //dummy data
 
-    // divs for circles
-    circles = titles.append('div').attr('class','flex-row')
+  titleDivs=titles.selectAll('div')
+  .data(dataForLegend)
+  .join('div')
+  .attr('class','flex-row')
+  .selectAll('div')
+  .data(d=>d)
+  .join('div')
+  .style('width', (d,i)=>widths[i]+ "px")
+  .append('div').attr('class', 'legend--item')
 
-    leftCircleLegend=circles.append('div')
-    .style('width', (chart_width + margin.centre + margin.left) + "px")
-    .append('div').attr('class', 'legend--item')
+  titleDivs.append('div')
+  .style('background-color',(d,i)=>d=='x' ? config.essential.colour_palette[i] : config.essential.comparison_colour_palette[i])
+  .attr('class',d=>d=='x' ? 'legend--icon--circle' : 'legend--icon--refline')
 
-    leftCircleLegend.append('div')
-    .attr('class','legend--icon--circle')
-    .style('background-color',config.essential.colour_palette[0])
-
-    leftCircleLegend.append('div')
-    .append('p').attr('class', 'legend--text').html(config.essential.legend[0]) 
-
-    rightCircleLegend=circles.append('div')
-    .style('width', (chart_width+margin.right) + "px")
-    .append('div').attr('class', 'legend--item')
-
-    rightCircleLegend.append('div')
-    .attr('class','legend--icon--circle')
-    .style('background-color',config.essential.colour_palette[1])
-
-    rightCircleLegend.append('div')
-    .append('p').attr('class', 'legend--text').html(config.essential.legend[0]) 
-
-    //div for comparisons lines
-    lines = titles.append('div').attr('class','flex-row')
-
-    leftLineLegend=lines.append('div')
-    .style('width', (chart_width + margin.centre + margin.left) + "px")
-    .append('div').attr('class', 'legend--item')
-
-    rightLineLegend=lines.append('div')
-    .style('width', (chart_width+margin.right) + "px")
-    .append('div').attr('class', 'legend--item')
-
-    leftLineLegend.append('div')
-    .attr('class','legend--icon--refline')
-    .style('background-color',config.essential.comparison_colour_palette[0])
-
-    rightLineLegend.append('div')
-    .attr('class','legend--icon--refline')
-    .style('background-color',config.essential.comparison_colour_palette[0])
-
-    leftLineLegend.append('div')
-    .append('p').attr('class', 'legend--text').html(config.essential.legend[1]) 
-
-    rightLineLegend.append('div')
-    .append('p').attr('class', 'legend--text').html(config.essential.legend[1]) 
-  
+  titleDivs.append('div')
+  .append('p').attr('class', 'legend--text').html(d=>d=='x' ? config.essential.legend[0] : config.essential.legend[1]) 
 
   //create link to source
   d3.select("#source")
