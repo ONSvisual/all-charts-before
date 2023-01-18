@@ -11,7 +11,7 @@ config = {
     colour_palette: ["#9A86E9", "#157e7d"],
     // this is the darker palette ["#933FC8","#30A3B1"]
     // this is the lighter palette for reference lines ["#9A86E9", "#30A3B1"],
-    comparison_colour_palette: ["#657b95", '#2e7078'],
+    comparison_colour_palette: ["#5c5185", '#306970'],
     legend: ["Selected area", 'Englands and Wales']
   },
   "optional": {
