@@ -65,7 +65,8 @@ input[type='radio']:not(:checked)+label:hover {
 }
 
 input[type='radio']:focus-visible+label {
-    position: relative box-shadow: 0 0 0px 3pt orange;
+    position: relative;
+    box-shadow: 0 0 0px 3pt orange;
     outline: 2px dotted transparent;
     z-index: 10;
 }
