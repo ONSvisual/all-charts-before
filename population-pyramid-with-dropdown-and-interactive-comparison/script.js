@@ -134,22 +134,11 @@ function drawGraphic() {
       }
     })
 
-    //work out percentages for comparison
-    // comparisonMaleTotal = d3.sum(comparison_data, d => d.maleBar)
-    // comparisonFemaleTotal = d3.sum(comparison_data, d => d.femaleBar)
-
-    // comparison_data = comparison_data.map(function (d) {
-    //   return {
-    //     age: d.age,
-    //     male: d.maleBar / comparisonMaleTotal,
-    //     female: d.femaleBar / comparisonFemaleTotal
-    //   }
-    // })
-
-
   } else {
     // turn into tidy data
     tidydataPercentage = pivot(graphic_data, graphic_data.columns.slice(3), 'age', 'value')
+
+    tidydataComparisonPercentage = pivot(comparison_data, comparison_data.columns.slice(3), 'age', 'value')
   }
 
   maxPercentage = d3.max([

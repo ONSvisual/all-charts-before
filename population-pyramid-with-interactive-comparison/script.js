@@ -127,6 +127,22 @@ function drawGraphic() {
         value: d.maleBar
       }]
     }).flatMap(d => d)
+
+    comparison_data = comparison_data.map(function (d) {
+      return {
+        age: d.age,
+        malePercent: d.maleBar,
+        femalePercent: d.femaleBar
+      }
+    })
+
+    time_comparison_data = time_comparison_data.map(function (d) {
+      return {
+        age: d.age,
+        malePercent: d.maleBar,
+        femalePercent: d.femaleBar
+      }
+    })
   }
 
   maxPercentage = d3.max([
