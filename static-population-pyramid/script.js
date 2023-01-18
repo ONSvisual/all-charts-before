@@ -1,5 +1,6 @@
 const graphic = d3.select('#graphic');
-const legend = d3.select('#titles')
+const titles = d3.select('#titles')
+const legend = d3.select('#legend')
 var pymChild = null;
 
 function drawGraphic() {
@@ -141,19 +142,50 @@ function drawGraphic() {
   .text("Age")
 
   // add chart titles
-  legend.append('div')
-  .style('width',(chart_width+margin.centre+margin.left)+"px")
-  .style('color',config.essential.colour_palette[0])
-  .append('p')
-  .attr('class','chartLabel')
-  .html("Females")
+  // legend.append('div')
+  // .style('width',(chart_width+margin.centre+margin.left)+"px")
+  // .style('color',config.essential.colour_palette[0])
+  // .append('p')
+  // .attr('class','chartLabel')
+  // .html("Females")
 
-  legend.append('div')
-  .style('width',(chart_width)+"px")
-  .append('p')
-  .style('color',config.essential.colour_palette[1])
-  .attr('class','chartLabel')
-  .html("Males")
+  // legend.append('div')
+  // .style('width',(chart_width)+"px")
+  // .append('p')
+  // .style('color',config.essential.colour_palette[1])
+  // .attr('class','chartLabel')
+  // .html("Males")
+
+  widths=[chart_width + margin.centre + margin.left,chart_width+margin.right]  
+
+  legend.append('div') 
+  .attr('class','flex-row')
+  .selectAll('div')
+  .data(['Females','Males'])
+  .join('div')
+  .style('width', (d,i)=>widths[i]+ "px")
+  .append('div')
+  .attr('class', 'chartLabel')
+  .append('p').text(d=>d)
+
+  dataForLegend=[['x','x']] //dummy data
+
+  titleDivs=titles.selectAll('div')
+  .data(dataForLegend)
+  .join('div')
+  .attr('class','flex-row')
+  .selectAll('div')
+  .data(d=>d)
+  .join('div')
+  .style('width', (d,i)=>widths[i]+ "px")
+  .append('div').attr('class', 'legend--item')
+
+  titleDivs.append('div')
+  .style('background-color',(d,i)=>config.essential.colour_palette[i])
+  .attr('class','legend--icon--circle')
+
+  titleDivs.append('div')
+  .append('p').attr('class', 'legend--text').html(config.essential.legend) 
 
   //create link to source
   d3.select("#source")

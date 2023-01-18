@@ -7,7 +7,7 @@ config = {
     // dataType can be a 'percentage' or 'number' where it works out the percentage in the script
     colour_palette: ["#933FC8","#157e7d"],
     // this is the lighter palette for reference lines ["#9A86E9", "#30A3B1"],
-    legendLabels:["Redcar and Cleveland"]
+    legend:["Variable name"]
   },
   "optional": {
     "margin": {
