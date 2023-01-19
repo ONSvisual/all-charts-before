@@ -9,4 +9,5 @@ Charts made so far
 - [range plot with groups](https://onsvisual.github.io/census-charts/range-plot/index.html)
 - [split bar chart](https://onsvisual.github.io/census-charts/split-bar-chart/index.html)
 - [stacked horizontal bar chart](https://onsvisual.github.io/census-charts/stacked-horizontal-bar-chart/index.html)
+- [comet plot](https://onsvisual.github.io/census-charts/comet-plot/index.html)
 
