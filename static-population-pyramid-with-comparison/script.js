@@ -77,7 +77,9 @@ function drawGraphic() {
     })
   }
 
-  maxPercentage = d3.max([d3.max(graphic_data, d => d.value), d3.max(comparison_data, d => d3.max([d.femaleBar, d.maleBar]))])
+  maxPercentage = d3.max([
+    d3.max(graphic_data, d => d.value), 
+    d3.max(comparison_data, d => d3.max([d.femaleBar, d.maleBar]))])
 
   // set up widths
   fullwidth = parseInt(graphic.style("width"))

@@ -15,10 +15,6 @@ div#titles {
     flex-direction: row;
 }
 
-div.legend--item div:last-child {
-    flex-shrink: 0.5;
-}
-
 /* buttons */
 fieldset {
     border: none;
