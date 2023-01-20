@@ -252,6 +252,7 @@ function drawGraphic() {
 
     legend.append('div') 
     .attr('class','flex-row')
+    .style('gap',margin.centre+'px')
     .selectAll('div')
     .data(['Females','Males'])
     .join('div')
@@ -266,6 +267,7 @@ function drawGraphic() {
     .data(dataForLegend)
     .join('div')
     .attr('class','flex-row')
+    .style('gap',margin.centre+'px')
     .selectAll('div')
     .data(d=>d)
     .join('div')

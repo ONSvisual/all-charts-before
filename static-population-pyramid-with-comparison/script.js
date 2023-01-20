@@ -184,10 +184,11 @@ function drawGraphic() {
     .attr('text-anchor', 'middle')
     .text("Age")
 
-  widths=[chart_width + margin.centre + margin.left,chart_width+margin.right]  
+  widths=[chart_width + margin.left,chart_width+margin.right]  
 
   legend.append('div') 
   .attr('class','flex-row')
+  .style('gap',margin.centre+'px')
   .selectAll('div')
   .data(['Females','Males'])
   .join('div')
@@ -202,6 +203,7 @@ function drawGraphic() {
   .data(dataForLegend)
   .join('div')
   .attr('class','flex-row')
+  .style('gap',margin.centre+'px')
   .selectAll('div')
   .data(d=>d)
   .join('div')
@@ -214,6 +216,7 @@ function drawGraphic() {
 
   titleDivs.append('div')
   .append('p').attr('class', 'legend--text').html(d=>d=='x' ? config.essential.legend[0] : config.essential.legend[1]) 
+
 
   //create link to source
   d3.select("#source")
