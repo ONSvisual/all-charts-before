@@ -143,7 +143,7 @@ function drawGraphic() {
   .attr('text-anchor','middle')
   .text("Age")
 
-  widths=[chart_width + margin.centre + margin.left,chart_width+margin.right]  
+  widths=[chart_width + margin.left,chart_width+margin.right]  
 
   legend.append('div') 
   .attr('class','flex-row')
