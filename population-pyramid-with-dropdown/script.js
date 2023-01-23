@@ -7,6 +7,9 @@ function drawGraphic() {
 
   // clear out existing graphics
   graphic.selectAll("*").remove();
+  titles.selectAll("*").remove();
+  legend.selectAll("*").remove();
+  d3.select("#select").selectAll("*").remove();
 
   //population accessible summmary
   d3.select('#accessibleSummary').html(config.essential.accessibleSummary)
@@ -108,7 +111,7 @@ function drawGraphic() {
     comparisonMaleTotal = d3.sum(comparison_data, d => d.maleBar)
     comparisonFemaleTotal = d3.sum(comparison_data, d => d.femaleBar)
 
-    comparison_data = comparison_data.map(function (d) {
+    comparison_data_new = comparison_data.map(function (d) {
       return {
         age: d.age,
         male: d.maleBar / comparisonMaleTotal,
@@ -121,7 +124,7 @@ function drawGraphic() {
     // turn into tidy data
     tidydataPercentage = pivot(graphic_data, graphic_data.columns.slice(3), 'age', 'value')
 
-    comparison_data = comparison_data.map(function (d) {
+    comparison_data_new = comparison_data.map(function (d) {
       return {
         age: d.age,
         male: d.maleBar,
@@ -132,7 +135,7 @@ function drawGraphic() {
 
   maxPercentage = d3.max([
     d3.max(tidydataPercentage, d => d.percentage),
-    d3.max(comparison_data, d => d3.max([d.female, d.male]))])
+    d3.max(comparison_data_new, d => d3.max([d.female, d.male]))])
 
   // set up widths
   fullwidth = parseInt(graphic.style("width"))
@@ -211,12 +214,12 @@ function drawGraphic() {
   comparisons = svg.append('g')
 
   comparisons.append('path').attr('class', 'line').attr('id', 'comparisonLineLeft')
-    .attr('d', lineLeft(comparison_data) + 'l 0 ' + -y.bandwidth())
+    .attr('d', lineLeft(comparison_data_new) + 'l 0 ' + -y.bandwidth())
     .attr('stroke', config.essential.comparison_colour_palette[0])
     .attr('stroke-width', '2px')
 
   comparisons.append('path').attr('class', 'line').attr('id', 'comparisonLineRight')
-    .attr('d', lineRight(comparison_data) + 'l 0 ' + -y.bandwidth())
+    .attr('d', lineRight(comparison_data_new) + 'l 0 ' + -y.bandwidth())
     .attr('stroke', config.essential.comparison_colour_palette[1])
     .attr('stroke-width', '2px')
 

@@ -35,7 +35,7 @@ function drawGraphic() {
     comparisonFemaleTotal = d3.sum(comparison_data, d => d.femaleBar)
 
     // turn into tidy data
-    graphic_data = graphic_data.map(function (d) {
+    graphic_data_new = graphic_data.map(function (d) {
       return [{
         age: d.age,
         sex: 'female',
@@ -47,7 +47,7 @@ function drawGraphic() {
       }]
     }).flatMap(d => d);
 
-    comparison_data = comparison_data.map(function (d) {
+    comparison_data_new = comparison_data.map(function (d) {
       return {
         age: d.age,
         malePercent: d.maleBar / comparisonMaleTotal,
@@ -56,7 +56,7 @@ function drawGraphic() {
     })
   } else {
     // turn into tidy data
-    graphic_data = graphic_data.map(function (d) {
+    graphic_data_new = graphic_data.map(function (d) {
       return [{
         age: d.age,
         value: d.femaleBar,
@@ -68,7 +68,7 @@ function drawGraphic() {
       }]
     }).flatMap(d => d)
 
-    comparison_data = comparison_data.map(function (d) {
+    comparison_data_new = comparison_data.map(function (d) {
       return {
         age: d.age,
         malePercent: d.maleBar,
@@ -78,13 +78,13 @@ function drawGraphic() {
   }
 
   maxPercentage = d3.max([
-    d3.max(graphic_data, d => d.value), 
-    d3.max(comparison_data, d => d3.max([d.femaleBar, d.maleBar]))])
+    d3.max(graphic_data_new, d => d.value), 
+    d3.max(comparison_data_new, d => d3.max([d.femaleBar, d.maleBar]))])
 
   // set up widths
   fullwidth = parseInt(graphic.style("width"))
   chart_width = ((parseInt(graphic.style("width")) - margin.centre) / 2) - margin.left - margin.right
-  height = (graphic_data.length / 2 * config.optional.seriesHeight[size])
+  height = (graphic_data_new.length / 2 * config.optional.seriesHeight[size])
 
   // set up some scales, first the left scale
   xLeft = d3.scaleLinear()
@@ -98,7 +98,7 @@ function drawGraphic() {
 
   // y scale
   y = d3.scaleBand()
-    .domain([...new Set(graphic_data.map(d => d.age))])
+    .domain([...new Set(graphic_data_new.map(d => d.age))])
     .rangeRound([height, 0])
     .paddingInner(0.1)
 
@@ -139,7 +139,7 @@ function drawGraphic() {
   // add bars
   svg.append('g')
     .selectAll('rect')
-    .data(graphic_data)
+    .data(graphic_data_new)
     .join('rect')
     .attr('fill', d => d.sex === "female" ? config.essential.colour_palette[0] : config.essential.colour_palette[1])
     .attr("x", d => d.sex === "female" ? xLeft(d.value) : xRight(0))
@@ -157,12 +157,12 @@ function drawGraphic() {
   comparisons = svg.append('g')
 
   comparisons.append('path').attr('class', 'line')
-    .attr('d', lineLeft(comparison_data) + 'l 0 ' + -y.bandwidth())
+    .attr('d', lineLeft(comparison_data_new) + 'l 0 ' + -y.bandwidth())
     .attr('stroke', config.essential.comparison_colour_palette[0])
     .attr('stroke-width', '2px')
 
   comparisons.append('path').attr('class', 'line')
-    .attr('d', lineRight(comparison_data) + 'l 0 ' + -y.bandwidth())
+    .attr('d', lineRight(comparison_data_new) + 'l 0 ' + -y.bandwidth())
     .attr('stroke', config.essential.comparison_colour_palette[1])
     .attr('stroke-width', '2px')
 

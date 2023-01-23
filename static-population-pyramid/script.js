@@ -7,6 +7,8 @@ function drawGraphic() {
 
   // clear out existing graphics
   graphic.selectAll("*").remove();
+  titles.selectAll("*").remove();
+  legend.selectAll("*").remove();
 
   //population accessible summmary
   d3.select('#accessibleSummary').html(config.essential.accessibleSummary)
@@ -32,7 +34,7 @@ function drawGraphic() {
     femaleTotal = d3.sum(graphic_data, d => d.femaleBar)
 
     // turn into tidy data
-    graphic_data = graphic_data.map(function (d) {
+    graphic_data_new = graphic_data.map(function (d) {
       return [{
         age: d.age,
         sex: 'female',
@@ -45,7 +47,7 @@ function drawGraphic() {
     }).flatMap(d => d);
   } else {
     // turn into tidy data
-    graphic_data = graphic_data.map(function (d) {
+    graphic_data_new = graphic_data.map(function (d) {
       return [{
         age: d.age,
         value: d.femaleBar,
@@ -58,12 +60,12 @@ function drawGraphic() {
     }).flatMap(d => d)
   }
 
-  maxPercentage = d3.max(graphic_data, d => d.value)
+  maxPercentage = d3.max(graphic_data_new, d => d.value)
 
   // set up widths
   fullwidth = parseInt(graphic.style("width"))
   chart_width = ((parseInt(graphic.style("width")) - margin.centre) / 2) - margin.left - margin.right
-  height = (graphic_data.length / 2 * config.optional.seriesHeight[size]) 
+  height = (graphic_data_new.length / 2 * config.optional.seriesHeight[size]) 
   
   // set up some scales, first the left scale
   xLeft = d3.scaleLinear()
@@ -77,7 +79,7 @@ function drawGraphic() {
 
   // y scale
   y = d3.scaleBand()
-  .domain([...new Set(graphic_data.map(d=>d.age))])
+  .domain([...new Set(graphic_data_new.map(d=>d.age))])
   .rangeRound([height,0])
   .paddingInner(0.1)
 
@@ -107,7 +109,7 @@ function drawGraphic() {
   // add bars
   svg.append('g')
   .selectAll('rect')
-  .data(graphic_data)
+  .data(graphic_data_new)
   .join('rect')
   .attr('fill',d=> d.sex==="female" ? config.essential.colour_palette[0] : config.essential.colour_palette[1])
   .attr("x", d => d.sex === "female" ? xLeft(d.value) : xRight(0))
@@ -140,21 +142,6 @@ function drawGraphic() {
   .attr('class','axis--label')
   .attr('text-anchor','middle')
   .text("Age")
-
-  // add chart titles
-  // legend.append('div')
-  // .style('width',(chart_width+margin.centre+margin.left)+"px")
-  // .style('color',config.essential.colour_palette[0])
-  // .append('p')
-  // .attr('class','chartLabel')
-  // .html("Females")
-
-  // legend.append('div')
-  // .style('width',(chart_width)+"px")
-  // .append('p')
-  // .style('color',config.essential.colour_palette[1])
-  // .attr('class','chartLabel')
-  // .html("Males")
 
   widths=[chart_width + margin.centre + margin.left,chart_width+margin.right]  
 
