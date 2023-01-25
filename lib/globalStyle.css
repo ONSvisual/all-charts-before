@@ -107,6 +107,12 @@ g.tick line.zero-line
 }
 
 
+/* this sets the style for lines charts */
+path.line{
+  fill:none;
+}
+
+
 /* source */
 h5#source {
   font-size: 16px;
@@ -127,11 +133,19 @@ h5#source {
   padding-bottom: 12px;
 }
 
-.legend--icon {
+.legend--icon--circle {
   height: 12px;
   width: 12px;
   border-radius: 50%;
   align-self: center;
+  flex-shrink: 0;
+}
+
+.legend--icon--refline {
+  height: 3px;
+  width: 20px;
+  align-self: center;
+  flex-shrink: 0;
 
 }
 

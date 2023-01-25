@@ -73,7 +73,7 @@ function drawGraphic() {
     .append('div')
     .attr('class', 'legend--item')
 
-  legenditem.append('div').attr('class', 'legend--icon')
+  legenditem.append('div').attr('class', 'legend--icon--circle')
     .style('background-color', function(d) {
       return d[1]
     })
