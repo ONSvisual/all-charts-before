@@ -1,6 +1,6 @@
 High quality chart templates that are ready for Census 2021, and that follow the [example charts in the style guide](https://ons-design.notion.site/Chart-types-e916b8337b064aab9d4ee0db0f56eb86)
 
-##Charts made so far
+## Charts made so far
 - [bar chart](https://onsvisual.github.io/census-charts/bar-chart/index.html)
 - [dot plot](https://onsvisual.github.io/census-charts/dot-plot/index.html)
 - [grouped bar chart](https://onsvisual.github.io/census-charts/grouped-bar-chart/index.html)
@@ -10,7 +10,7 @@ High quality chart templates that are ready for Census 2021, and that follow the
 - [split bar chart](https://onsvisual.github.io/census-charts/split-bar-chart/index.html)
 - [stacked horizontal bar chart](https://onsvisual.github.io/census-charts/stacked-horizontal-bar-chart/index.html)
 
-##Population pyramids
+## Population pyramids
 - [static population pyramid](https://onsvisual.github.io/census-charts/static-population-pyramid)
 - [static population pyramid with comparison line](https://onsvisual.github.io/census-charts/static-population-pyramid-with-comparison)
 - [population pyramid with dropdown and static comparison](https://onsvisual.github.io/census-charts/population-pyramid-with-dropdown)
