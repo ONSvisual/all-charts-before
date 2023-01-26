@@ -7,6 +7,9 @@ function drawGraphic() {
 
   // clear out existing graphics
   graphic.selectAll("*").remove();
+  titles.selectAll("*").remove();
+  legend.selectAll("*").remove();
+  d3.select('#nav').selectAll("*").remove();
 
   //population accessible summmary
   d3.select('#accessibleSummary').html(config.essential.accessibleSummary)
