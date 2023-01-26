@@ -140,8 +140,8 @@ function drawGraphic() {
     .attr('cy', d => groups.filter(f => f[0] == d.group)[0][3](d.name))
     .attr('r', config.essential.dotsize)
     .attr('fill', d => +d.min > +d.max ? config.essential.colour_palette[1]
-    : +d.min < +d.max ? config.essential.colour_palette[0]
-      : config.essential.colour_palette[2])
+      : +d.min < +d.max ? config.essential.colour_palette[0]
+        : config.essential.colour_palette[2])
 
   if (config.essential.showDataLabels == true) {
 
@@ -153,7 +153,7 @@ function drawGraphic() {
       .attr('y', d => groups.filter(f => f[0] == d.group)[0][3](d.name))
       .text((d) => d3.format(config.essential.numberFormat)(d.min))
       .attr('fill', d => +d.min > +d.max ? config.essential.colour_palette[1]
-      : +d.min < +d.max ? config.essential.colour_palette[0]
+        : +d.min < +d.max ? config.essential.colour_palette[0]
           : "none")
       .attr('dy', 6)
       .attr('dx', (d) => +d.min < +d.max ? -5 : 5)
@@ -166,9 +166,9 @@ function drawGraphic() {
       .attr('x', d => x(d.max))
       .attr('y', d => groups.filter(f => f[0] == d.group)[0][3](d.name))
       .text((d) => d3.format(config.essential.numberFormat)(d.max))
-    .attr('fill', d => +d.min > +d.max ? config.essential.colour_palette[1]
-    : +d.min < +d.max ? config.essential.colour_palette[0]
-      : config.essential.colour_palette[2])
+      .attr('fill', d => +d.min > +d.max ? config.essential.colour_palette[1]
+        : +d.min < +d.max ? config.essential.colour_palette[0]
+          : config.essential.colour_palette[2])
       .attr('dy', 6)
       .attr('dx', (d) => +d.min > +d.max ? -(config.essential.dotsize + 5) : config.essential.dotsize + 5)
       .attr('text-anchor', (d) => +d.min > +d.max ? "end" : "start")
@@ -190,59 +190,37 @@ function drawGraphic() {
 
 
   // // Set up the legend
-  // var legenditem = d3.select('#legend')
-  //   .selectAll('div.legend--item')
-  //   .data(d3.zip(Object.values(config.essential.legendLabels), config.essential.colour_palette))
-  //   .enter()
-  //   .append('div')
-  //   .attr('class', 'legend--item')
-
-  // legenditem.append('div').attr('class', 'legend--icon')
-  //   .style('background-color', function (d) {
-  //     return d[1]
-  //   })
-
-  // legenditem.append('div')
-  //   .append('p').attr('class', 'legend--text').html(function (d) {
-  //     return d[0]
-  //   })
-
-  //draw legend
-  legend
-    .append('svg')
-    .attr("height", config.optional.legendHeight[size])
-    .attr("width", chart_width + margin.left + margin.right).append('g')
-    .attr('transform', 'translate(5,5)')
+  var legenditem = d3.select('#legend')
+    .selectAll('div.legend--item')
+    .data(["Inc", "Dec", "No"])
+    .enter()
+    .append('div')
+    .attr('class', (d) => 'legend--item ' + [d])
 
   drawLegend();
 
   function drawLegend() {
-    var_group = d3.select("#legend").select('svg').append("g").attr("class","legendGroup")
+    var_group = d3.select("#legend").selectAll('div.legend--item.Inc').append("svg").attr("height", config.optional.legendHeight[size]).attr("width", config.essential.legendItemWidth)
+    var_group2 = d3.select("#legend").selectAll('div.legend--item.Dec').append("svg").attr("height", config.optional.legendHeight[size]).attr("width", config.essential.legendItemWidth)
+    var_group3 = d3.select("#legend").selectAll('div.legend--item.No').append("svg").attr("height", config.optional.legendHeight[size]).attr("width", config.essential.legendItemWidth)
 
-var marginLg = (margin.left + 35)
-
-    if (size == "lg") {
-      var_group.attr("transform", "translate(" + marginLg + ",30)")
-    } else {
-      var_group.attr("transform", "translate(" + (30) + ",30)")
-    }
-
+    //Increase legend item
     var_group.append("text")
-      .attr("y", 14)
-      .attr("x", -5)
+      .attr("y", 30)
+      .attr("x", 0)
       .attr("text-anchor", "start")
-      .attr("class", "mintext")
+      .attr("class", "mintext legendLabel")
       .attr("fill", config.essential.colour_palette[0])
       .text(config.essential.legendLabels.min)
 
     //this measures how wide the "min" value is so that we can place the legend items responsively
-    var minTextWidth = d3.select("text.mintext").node().getBBox().width
+    var minTextWidth = d3.select("text.mintext").node().getBBox().width + 5
 
     var_group.append("line")
       .attr("stroke", config.essential.colour_palette[0])
       .attr("stroke-width", "3px")
-      .attr("y1", 10)
-      .attr("y2", 10)
+      .attr("y1", 26)
+      .attr("y2", 26)
       .attr("x1", minTextWidth)
       .attr("x2", minTextWidth + config.essential.legendLineLength)
 
@@ -250,48 +228,33 @@ var marginLg = (margin.left + 35)
       .attr("r", config.essential.dotsize)
       .attr("fill", config.essential.colour_palette[0])
       .attr("cx", minTextWidth + config.essential.legendLineLength)
-      .attr("cy", 10)
+      .attr("cy", 26)
 
     var_group.append("text")
-      .attr("y", 14)
+      .attr("y", 30)
       .attr("x", minTextWidth + config.essential.legendLineLength + config.essential.dotsize + 5)
       .attr("text-anchor", "start")
-      .attr("class", "maxtext")
+      .attr("class", "maxtext legendLabel")
       .attr("fill", config.essential.colour_palette[0])
       .text(config.essential.legendLabels.max)
 
     //this measures how wide the "max" value is so that we can place the legend items responsively
-    var maxTextWidth = d3.select("text.maxtext").node().getBBox().width
+    var maxTextWidth = d3.select("text.maxtext").node().getBBox().width + 5
 
     var_group.append("text")
-      .attr("y", "-5")
+      .attr("y", 15)
       .attr("x", (minTextWidth + config.essential.legendLineLength + config.essential.dotsize + maxTextWidth) / 2)
       .attr("text-anchor", "middle")
+      .attr("class", "legendLabel")
       .attr("fill", config.essential.colour_palette[0])
       .text("Increase")
 
-    // Measuring a few useful items  
-    var groupHeight = d3.select(".legendGroup").node().getBBox().height
-    var groupWidth = d3.select(".legendGroup").node().getBBox().width
-    var legendWidth = chart_width + margin.left + margin.right
-
-    var_group2 = d3.select("#legend").select('svg').append("g")
-
-
-
-    if (size == "lg") {
-      var_group2.attr("transform", "translate(" + (marginLg + minTextWidth + config.essential.legendLineLength + config.essential.dotsize + 50 + maxTextWidth) + ",30)")
-    } else if (legendWidth > (50 + (2*groupWidth)) ){
-      var_group2.attr("transform", "translate(" + (groupWidth + 50) + "," + (30) + ")")
-    } else {
-      var_group2.attr("transform", "translate(" + (30) + "," + (30 + groupHeight) + ")")
-    }
-
+    //Decrease legend item
     var_group2.append("line")
       .attr("stroke", config.essential.colour_palette[1])
       .attr("stroke-width", "3px")
-      .attr("y1", 10)
-      .attr("y2", 10)
+      .attr("y1", 26)
+      .attr("y2", 26)
       .attr("x1", maxTextWidth + config.essential.dotsize)
       .attr("x2", maxTextWidth + config.essential.dotsize + config.essential.legendLineLength)
 
@@ -299,51 +262,46 @@ var marginLg = (margin.left + 35)
       .attr("r", config.essential.dotsize)
       .attr("fill", config.essential.colour_palette[1])
       .attr("cx", maxTextWidth + config.essential.dotsize)
-      .attr("cy", 10)
+      .attr("cy", 26)
 
     var_group2.append("text")
-      .attr("y", 14)
-      .attr("x", -5)
+      .attr("y", 30)
+      .attr("x", 0)
       .attr("text-anchor", "start")
+      .attr("class", "legendLabel")
       .attr("fill", config.essential.colour_palette[1])
       .text(config.essential.legendLabels.max)
 
     var_group2.append("text")
-      .attr("y", 14)
+      .attr("y", 30)
       .attr("x", maxTextWidth + config.essential.legendLineLength + config.essential.dotsize + 5)
       .attr("text-anchor", "start")
+      .attr("class", "legendLabel")
       .attr("fill", config.essential.colour_palette[1])
       .text(config.essential.legendLabels.min)
 
     var_group2.append("text")
-      .attr("y", "-5")
+      .attr("y", 15)
       .attr("x", (maxTextWidth + config.essential.legendLineLength + config.essential.dotsize + minTextWidth) / 2)
       .attr("text-anchor", "middle")
+      .attr("class", "legendLabel")
       .attr("fill", config.essential.colour_palette[1])
       .text("Decrease")
 
-    var_group3 = d3.select("#legend").select('svg').append("g")
-
-    if (size == "lg") {
-      var_group3.attr("transform", "translate(" + (marginLg + 2 * (minTextWidth + config.essential.legendLineLength + config.essential.dotsize + 50 + maxTextWidth)) + ",30)")
-    } else if (legendWidth > (50 + (2*groupWidth)) ){
-      var_group3.attr("transform", "translate(" + (groupWidth/3) + "," + (30 + (groupHeight)) + ")")
-    } else {
-      var_group3.attr("transform", "translate(" + (groupWidth/3) + "," + (20 + (2 * groupHeight)) + ")")
-    }
-
+    //No change legend item
     var_group3.append("circle")
       .attr("r", config.essential.dotsize)
       .attr("fill", config.essential.colour_palette[2])
       .attr("cx", 10)
-      .attr("cy", 10)
+      .attr("cy", 26)
 
-      var_group3.append("text")
-      .attr("y", 14)
-      .attr("x",  config.essential.dotsize + 15)
+    var_group3.append("text")
+      .attr("y", 30)
+      .attr("x", config.essential.dotsize + 15)
       .attr("text-anchor", "start")
+      .attr("class", "legendLabel")
       .attr("fill", config.essential.colour_palette[2])
-      .text("No change")      
+      .text("No change")
   } //End drawLegend
 
   //create link to source

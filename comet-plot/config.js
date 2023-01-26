@@ -12,6 +12,7 @@ config={
       // either auto or a custom domain as an array e.g [0,100]
       "dotsize":6,
       "legendLineLength": 60,
+      "legendItemWidth": 150,
       "showDataLabels":true
     },
     "optional": {
@@ -46,9 +47,9 @@ config={
         "lg":10
       },
       "legendHeight":{
-        "sm":120,
-        "md":90,
-        "lg":60
+        "sm":40,
+        "md":40,
+        "lg":40
       },
       "mobileBreakpoint": 510,
       "mediumBreakpoint": 600

@@ -9,6 +9,6 @@
     font-weight: 600;
   }
 
-  svg text {
+  .legendLabel{
     font-size: 14px;
   }
