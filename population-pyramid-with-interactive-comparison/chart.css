@@ -15,16 +15,10 @@ div#titles {
     flex-direction: row;
 }
 
-/* this is a fudge to stop source getting cut off */
-body {
-    padding-bottom:10px;
-}
-
 /* buttons */
 fieldset {
     border: none;
     padding: 0 0 0 0;
-    margin: 10px 0 10px 3px;
 }
 
 input[type="radio"] {
