@@ -25,7 +25,7 @@ function drawGraphic() {
     }
   }, Object.create(null)).sort((a,b)=>d3.ascending(a.nm,b.nm));//sorted alphabetically
 
-  // // Build option menu 
+  // // Build option menu
   const optns = d3.select("#select").append("div").attr("id", "sel").append("select")
     .attr("id", "areaselect")
     .attr("style", "width:calc(100% - 6px)")
@@ -38,12 +38,12 @@ function drawGraphic() {
     .attr("value", function (d) { return d.cd })
     .text(function (d) { return d.nm });
 
-  // start the chosen dropdown  
-  $('#areaselect').chosen({ placeholder_text_single: "Select an ethnicity", allow_single_deselect: true })
+  // start the chosen dropdown
+  $('#areaselect').chosen({ placeholder_text_single: "Select an area", allow_single_deselect: true })
 
   //add some more accessibility stuff
   d3.select('input.chosen-search-input').attr('id', 'chosensearchinput')
-  d3.select('div.chosen-search').insert('label', 'input.chosen-search-input').attr('class', 'visuallyhidden').attr('for', 'chosensearchinput').html("Type to select an ethnicity")
+  d3.select('div.chosen-search').insert('label', 'input.chosen-search-input').attr('class', 'visuallyhidden').attr('for', 'chosensearchinput').html("Type to select an area")
 
   // draw the bars on change
   $('#areaselect').on('change', function () {
@@ -54,7 +54,7 @@ function drawGraphic() {
         .join('rect')
         .attr('fill', d => d.sex === "female" ? config.essential.colour_palette[0] : config.essential.colour_palette[1])
         .attr("y", d => y(d.age))
-        .attr("height", y.bandwidth())      
+        .attr("height", y.bandwidth())
         .transition()
         .attr("x", d => d.sex === "female" ? xLeft(d.percentage) : xRight(0))
         .attr("width", d => d.sex === "female" ? xLeft(0) - xLeft(d.percentage) : xRight(d.percentage) - xRight(0))
@@ -66,7 +66,7 @@ function drawGraphic() {
         .attr('d', lineLeft(tidydataComparisonPercentage.filter(d=>d.AREACD==$('#areaselect').val()).filter(d=>d.sex=='female')) + 'l 0 ' + -y.bandwidth())
         .attr('stroke', config.essential.comparison_colour_palette[0])
         .attr('stroke-width', '2px')
-    
+
         d3.select('#comparisonLineRight')
         .attr('opacity',1)
         .transition()
@@ -106,12 +106,13 @@ function drawGraphic() {
   allAges = graphic_data.columns.slice(3)
 
   // calculate percentage if we have numbers
+  // percentages are based of total populations as is common practice amongst pop pyramids
   if (config.essential.dataType == "numbers") {
 
     // turn into tidy data
     tidydata = pivot(graphic_data, graphic_data.columns.slice(3), 'age', 'value')
 
-    //rollup to work out totals 
+    //rollup to work out totals
     rolledUp = d3.rollup(tidydata, v => d3.sum(v, d => d.value), d => d.AREACD)
 
     // then use total to work out percentages
@@ -122,11 +123,11 @@ function drawGraphic() {
       }
     })
 
-    
+
     // turn into tidy data for comparisons
     tidydatacomparison = pivot(comparison_data, comparison_data.columns.slice(3), 'age', 'value')
 
-    //rollup to work out totals 
+    //rollup to work out totals
     rolledUpComparison = d3.rollup(tidydatacomparison, v => d3.sum(v, d => d.value), d => d.AREACD)
 
     // then use total to work out percentages
@@ -239,7 +240,7 @@ function drawGraphic() {
     .attr('transform', 'translate(' + (fullwidth - margin.left - margin.right) + ',' + (height + 30) + ')')
     .attr('class', 'axis--label')
     .attr('text-anchor', 'end')
-    .text("Percentage")
+    .text(config.essential.xAxislabel)
 
 
 
@@ -251,9 +252,9 @@ function drawGraphic() {
     .text("Age")
 
     // Add titles and legend
-    widths=[chart_width + margin.centre + margin.left,chart_width+margin.right]  
+    widths=[chart_width + margin.left,chart_width+margin.right]
 
-    legend.append('div') 
+    legend.append('div')
     .attr('class','flex-row')
     .style('gap',margin.centre+'px')
     .selectAll('div')
@@ -263,9 +264,9 @@ function drawGraphic() {
     .append('div')
     .attr('class', 'chartLabel')
     .append('p').text(d=>d)
-  
+
     dataForLegend=[['x','x'],['y','y']] //dummy data
-  
+
     titleDivs=titles.selectAll('div')
     .data(dataForLegend)
     .join('div')
@@ -276,14 +277,14 @@ function drawGraphic() {
     .join('div')
     .style('width', (d,i)=>widths[i]+ "px")
     .append('div').attr('class', 'legend--item')
-  
+
     titleDivs.append('div')
     .style('background-color',(d,i)=>d=='x' ? config.essential.colour_palette[i] : config.essential.comparison_colour_palette[i])
     .attr('class',d=>d=='x' ? 'legend--icon--circle' : 'legend--icon--refline')
-  
+
     titleDivs.append('div')
-    .append('p').attr('class', 'legend--text').html(d=>d=='x' ? config.essential.legend[0] : config.essential.legend[1]) 
-  
+    .append('p').attr('class', 'legend--text').html(d=>d=='x' ? config.essential.legend[0] : config.essential.legend[1])
+
 
 
 
@@ -322,7 +323,7 @@ function clear(){
 
   d3.select('#comparisonLineRight').transition()
   .attr('opacity',0)
-  
+
 
   $("#areaselect").val(null).trigger('chosen:updated');
  }

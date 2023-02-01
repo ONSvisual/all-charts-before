@@ -7,6 +7,8 @@ function drawGraphic() {
 
   // clear out existing graphics
   graphic.selectAll("*").remove();
+  titles.selectAll("*").remove();
+  legend.selectAll("*").remove();
 
   //population accessible summmary
   d3.select('#accessibleSummary').html(config.essential.accessibleSummary)
@@ -27,31 +29,31 @@ function drawGraphic() {
   margin.centre = config.optional.margin.centre
 
   // calculate percentage if we have numbers
-  if (config.essential.dataType == "numbers") {
-    maleTotal = d3.sum(graphic_data, d => d.maleBar)
-    femaleTotal = d3.sum(graphic_data, d => d.femaleBar)
+  // percentages are based of total populations as is common practice amongst pop pyramids
 
-    comparisonMaleTotal = d3.sum(comparison_data, d => d.maleBar)
-    comparisonFemaleTotal = d3.sum(comparison_data, d => d.femaleBar)
+  if (config.essential.dataType == "numbers") {
+    popTotal = d3.sum(graphic_data, d => (d.maleBar + d.femaleBar))
+
+    comparisonPopTotal = d3.sum(comparison_data, d => (d.maleBar + d.femaleBar))
 
     // turn into tidy data
     graphic_data_new = graphic_data.map(function (d) {
       return [{
         age: d.age,
         sex: 'female',
-        value: d.femaleBar / femaleTotal,
+        value: d.femaleBar / popTotal,
       }, {
         age: d.age,
         sex: 'male',
-        value: d.maleBar / maleTotal
+        value: d.maleBar / popTotal
       }]
     }).flatMap(d => d);
 
     comparison_data_new = comparison_data.map(function (d) {
       return {
         age: d.age,
-        malePercent: d.maleBar / comparisonMaleTotal,
-        femalePercent: d.femaleBar / comparisonFemaleTotal
+        malePercent: d.maleBar / comparisonPopTotal,
+        femalePercent: d.femaleBar / comparisonPopTotal
       }
     })
   } else {
@@ -78,7 +80,7 @@ function drawGraphic() {
   }
 
   maxPercentage = d3.max([
-    d3.max(graphic_data_new, d => d.value), 
+    d3.max(graphic_data_new, d => d.value),
     d3.max(comparison_data_new, d => d3.max([d.femaleBar, d.maleBar]))])
 
   // set up widths
@@ -171,13 +173,8 @@ function drawGraphic() {
     .attr('transform', 'translate(' + (fullwidth - margin.left - margin.right) + ',' + (height + 30) + ')')
     .attr('class', 'axis--label')
     .attr('text-anchor', 'end')
-    .text("Proportion(%)")
+    .text(config.essential.xAxislabel)
 
-  // svg.append('text')
-  //   .attr('transform', 'translate(' + (0) + ',' + (height + 30) + ')')
-  //   .attr('class', 'axis--label')
-  //   .attr('text-anchor', 'start')
-  //   .text("Proportion(%)")
 
   //add y-axis title
   svg.append('text')
@@ -186,9 +183,9 @@ function drawGraphic() {
     .attr('text-anchor', 'middle')
     .text("Age")
 
-  widths=[chart_width + margin.left,chart_width+margin.right]  
+  widths=[chart_width + margin.left,chart_width+margin.right]
 
-  legend.append('div') 
+  legend.append('div')
   .attr('class','flex-row')
   .style('gap',margin.centre+'px')
   .selectAll('div')
@@ -217,7 +214,7 @@ function drawGraphic() {
   .attr('class',d=>d=='x' ? 'legend--icon--circle' : 'legend--icon--refline')
 
   titleDivs.append('div')
-  .append('p').attr('class', 'legend--text').html(d=>d=='x' ? config.essential.legend[0] : config.essential.legend[1]) 
+  .append('p').attr('class', 'legend--text').html(d=>d=='x' ? config.essential.legend[0] : config.essential.legend[1])
 
 
   //create link to source

@@ -25,7 +25,7 @@ function drawGraphic() {
     }
   }, Object.create(null)).sort((a,b)=>d3.ascending(a.nm,b.nm));//sorted alphabetically
 
-  // // Build option menu 
+  // // Build option menu
   const optns = d3.select("#select").append("div").attr("id", "sel").append("select")
     .attr("id", "areaselect")
     .attr("style", "width:calc(100% - 6px)")
@@ -38,7 +38,7 @@ function drawGraphic() {
     .attr("value", function (d) { return d.cd })
     .text(function (d) { return d.nm });
 
-  // start the chosen dropdown  
+  // start the chosen dropdown
   $('#areaselect').chosen({ placeholder_text_single: "Select an area", allow_single_deselect: true })
 
   //add some more accessibility stuff
@@ -54,7 +54,7 @@ function drawGraphic() {
         .join('rect')
         .attr('fill', d => d.sex === "female" ? config.essential.colour_palette[0] : config.essential.colour_palette[1])
         .attr("y", d => y(d.age))
-        .attr("height", y.bandwidth())      
+        .attr("height", y.bandwidth())
         .transition()
         .attr("x", d => d.sex === "female" ? xLeft(d.percentage) : xRight(0))
         .attr("width", d => d.sex === "female" ? xLeft(0) - xLeft(d.percentage) : xRight(d.percentage) - xRight(0))
@@ -96,26 +96,25 @@ function drawGraphic() {
     // turn into tidy data
     tidydata = pivot(graphic_data, graphic_data.columns.slice(3), 'age', 'value')
 
-    //rollup to work out totals 
-    rolledUp = d3.rollup(tidydata, v => d3.sum(v, d => d.value), d => d.AREACD, d => d.sex)
+    //rollup to work out totals
+    rolledUp = d3.rollup(tidydata, v => d3.sum(v, d => d.value), d => d.AREACD)
 
     // then use total to work out percentages
     tidydataPercentage = tidydata.map(function (d) {
       return {
         ...d,
-        percentage: d.value / rolledUp.get(d.AREACD).get(d.sex)
+        percentage: d.value / rolledUp.get(d.AREACD)
       }
     })
 
     //work out percentages for comparison
-    comparisonMaleTotal = d3.sum(comparison_data, d => d.maleBar)
-    comparisonFemaleTotal = d3.sum(comparison_data, d => d.femaleBar)
+    comparisonPopTotal = d3.sum(comparison_data, d => (d.maleBar + d.femaleBar))
 
     comparison_data_new = comparison_data.map(function (d) {
       return {
         age: d.age,
-        male: d.maleBar / comparisonMaleTotal,
-        female: d.femaleBar / comparisonFemaleTotal
+        male: d.maleBar / comparisonPopTotal,
+        female: d.femaleBar / comparisonPopTotal
       }
     })
 
@@ -228,13 +227,8 @@ function drawGraphic() {
     .attr('transform', 'translate(' + (fullwidth - margin.left - margin.right) + ',' + (height + 30) + ')')
     .attr('class', 'axis--label')
     .attr('text-anchor', 'end')
-    .text("Proportion(%)")
+    .text(config.essential.xAxislabel)
 
-  // svg.append('text')
-  //   .attr('transform', 'translate(' + (0) + ',' + (height + 30) + ')')
-  //   .attr('class', 'axis--label')
-  //   .attr('text-anchor', 'start')
-  //   .text("Proportion(%)")
 
   //add y-axis title
   svg.append('text')
@@ -245,9 +239,10 @@ function drawGraphic() {
 
 
   // Set up the legend
-  widths=[chart_width + margin.centre + margin.left,chart_width+margin.right]  
+  widths=[chart_width + margin.left,chart_width+margin.right]
 
-  legend.append('div') 
+
+  legend.append('div')
   .attr('class','flex-row')
   .style('gap',margin.centre+'px')
   .selectAll('div')
@@ -276,7 +271,7 @@ function drawGraphic() {
   .attr('class',d=>d=='x' ? 'legend--icon--circle' : 'legend--icon--refline')
 
   titleDivs.append('div')
-  .append('p').attr('class', 'legend--text').html(d=>d=='x' ? config.essential.legend[0] : config.essential.legend[1]) 
+  .append('p').attr('class', 'legend--text').html(d=>d=='x' ? config.essential.legend[0] : config.essential.legend[1])
 
   //create link to source
   d3.select("#source")
