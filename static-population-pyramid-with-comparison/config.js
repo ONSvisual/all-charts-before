@@ -5,12 +5,13 @@ config = {
     graphic_data_url: "data.csv",
     comparison_data: "comparison.csv",
     dataType: "numbers",
-    // dataType can be a 'percentage' or 'number' where it works out the percentage in the script
-    colour_palette: ["#9A86E9", "#157e7d"],
-    // this is the darker palette ["#933FC8","#30A3B1"]
-    // this is the lighter palette for reference lines ["#9A86E9", "#30A3B1"],
+    // dataType can be a 'percentage' or 'numbers' where it works out the percentage in the script
+    colour_palette: ["#9A86E9", "#3fb0b3"],
+    // this is the lighter palette for reference lines ["#9A86E9", "#3fb0b3"]
     comparison_colour_palette: ["#5c5185", '#306970'],
-    legend: ["Area name", 'Englands and Wales']
+    legend: ["Area name", 'England and Wales'],
+    xAxislabel: ["Percentage"]
+
   },
   "optional": {
     "margin": {
