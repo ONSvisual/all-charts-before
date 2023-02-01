@@ -29,20 +29,21 @@ function drawGraphic() {
   margin.centre = config.optional.margin.centre
 
   // calculate percentage if we have numbers
+  // percentages are based of total populations as is common practice amongst pop pyramids
   if (config.essential.dataType == "numbers") {
-    maleTotal = d3.sum(graphic_data, d => d.maleBar)
-    femaleTotal = d3.sum(graphic_data, d => d.femaleBar)
+    popTotal = d3.sum(graphic_data, d => (d.maleBar + d.femaleBar))
+
 
     // turn into tidy data
     graphic_data_new = graphic_data.map(function (d) {
       return [{
         age: d.age,
         sex: 'female',
-        value: d.femaleBar / femaleTotal,
+        value: d.femaleBar / popTotal,
       }, {
         age: d.age,
         sex: 'male',
-        value: d.maleBar / maleTotal
+        value: d.maleBar / popTotal
       }]
     }).flatMap(d => d);
   } else {
@@ -65,8 +66,8 @@ function drawGraphic() {
   // set up widths
   fullwidth = parseInt(graphic.style("width"))
   chart_width = ((parseInt(graphic.style("width")) - margin.centre) / 2) - margin.left - margin.right
-  height = (graphic_data_new.length / 2 * config.optional.seriesHeight[size]) 
-  
+  height = (graphic_data_new.length / 2 * config.optional.seriesHeight[size])
+
   // set up some scales, first the left scale
   xLeft = d3.scaleLinear()
   .domain([0,maxPercentage])
@@ -96,7 +97,7 @@ function drawGraphic() {
   .call(d3.axisBottom(xLeft).tickFormat(d3.format(".1%")).ticks(config.optional.xAxisTicks[size]).tickSize(-height))
   .selectAll('line').each(function(d){
     if (d == 0) {d3.select(this).attr('class','zero-line')};
-  })    
+  })
 
   //add x-axis right
   svg.append('g').attr('class','x axis right')
@@ -128,13 +129,9 @@ function drawGraphic() {
   .attr('transform','translate('+(fullwidth-margin.left-margin.right)+','+(height+30)+')')
   .attr('class','axis--label')
   .attr('text-anchor','end')
-  .text("Proportion(%)")
+  .text(config.essential.xAxislabel)
 
-  svg.append('text')
-  .attr('transform','translate('+(0)+','+(height+30)+')')
-  .attr('class','axis--label')
-  .attr('text-anchor','start')
-  .text("Proportion(%)")
+
 
   //add y-axis title
   svg.append('text')
@@ -143,9 +140,9 @@ function drawGraphic() {
   .attr('text-anchor','middle')
   .text("Age")
 
-  widths=[chart_width + margin.left,chart_width+margin.right]  
+  widths=[chart_width + margin.left,chart_width+margin.right]
 
-  legend.append('div') 
+  legend.append('div')
   .attr('class','flex-row')
   .style('gap',margin.centre+'px')
   .selectAll('div')
@@ -174,7 +171,7 @@ function drawGraphic() {
   .attr('class','legend--icon--circle')
 
   titleDivs.append('div')
-  .append('p').attr('class', 'legend--text').html(config.essential.legend) 
+  .append('p').attr('class', 'legend--text').html(config.essential.legend)
 
   //create link to source
   d3.select("#source")
