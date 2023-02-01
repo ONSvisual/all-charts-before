@@ -46,11 +46,7 @@ config={
         "md":8,
         "lg":10
       },
-      "legendHeight":{
-        "sm":40,
-        "md":40,
-        "lg":40
-      },
+      "legendHeight":40,
       "mobileBreakpoint": 510,
       "mediumBreakpoint": 600
     }

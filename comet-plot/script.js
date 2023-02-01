@@ -192,12 +192,60 @@ function drawGraphic() {
   // // Set up the legend
   var legenditem = d3.select('#legend')
     .selectAll('div.legend--item')
-    .data(["Inc", "Dec", "No"])
+    .data([["Increase",config.essential.legendLabels.min,config.essential.legendLabels.max], ["Decrease",config.essential.legendLabels.max,config.essential.legendLabels.min], ["No change"]])
     .enter()
     .append('div')
-    .attr('class', (d) => 'legend--item ' + [d])
+    .attr('class', (d) => 'legend--item ' + d[0])
+    .append("svg")
+    .attr("height", config.optional.legendHeight)
+    .attr("width", config.essential.legendItemWidth)
 
-  drawLegend();
+    legenditem.append("text")
+    .attr("y", 30)
+    .attr("x", 0)
+    .attr("text-anchor", "start")
+    .attr("class", "mintext legendLabel")
+    .attr("fill", (d,i)=>config.essential.colour_palette[i])
+    .text(d=>d[1])
+
+    var minTextWidth = d3.select("text.mintext").node().getBBox().width + 5
+
+    legenditem.append("line")
+    .attr("stroke", (d,i)=>config.essential.colour_palette[i])
+    .attr("stroke-width", "3px")
+    .attr("y1", 26)
+    .attr("y2", 26)
+    .attr("x1", minTextWidth)
+    .attr("x2", (d,i)=> i==2 ? minTextWidth : minTextWidth + config.essential.legendLineLength)
+
+    legenditem.append("circle")
+    .attr("r", config.essential.dotsize)
+    .attr("fill", (d,i)=>config.essential.colour_palette[i])
+    .attr("cx", (d,i)=>i==0 ? minTextWidth + config.essential.legendLineLength: minTextWidth )
+    .attr("cy", 26)
+
+    legenditem.append("text")
+    .attr("y", 30)
+    .attr("x", minTextWidth + config.essential.legendLineLength + config.essential.dotsize + 5)
+    .attr("text-anchor", "start")
+    .attr("class", "maxtext legendLabel")
+    .attr("fill", (d,i)=>config.essential.colour_palette[i])
+    .text(d=>d[2])
+
+    //this measures how wide the "max" value is so that we can place the legend items responsively
+    var maxTextWidth = d3.select("text.maxtext").node().getBBox().width + 5
+
+    legenditem.append("text")
+    .attr("y", 15)
+    .attr('dy',(d,i)=>i==2? 15:0)
+    .attr('dx',(d,i)=>i==2? 15:0)
+    .attr("x", (minTextWidth + config.essential.legendLineLength + config.essential.dotsize + maxTextWidth) / 2)
+    .attr("text-anchor", "middle")
+    .attr("class", "legendLabel")
+    .attr("fill", (d,i)=>config.essential.colour_palette[i])
+    .text(d=>d[0])
+
+  // drawLegend();
 
   function drawLegend() {
     var_group = d3.select("#legend").selectAll('div.legend--item.Inc').append("svg").attr("height", config.optional.legendHeight[size]).attr("width", config.essential.legendItemWidth)
