@@ -137,9 +137,9 @@ function drawGraphic() {
     .style('background', function(d) {
         if (config.colour_palette.type == "mono") {
           return config.colour_palette.colours
-        } else if (config.colour_palette.type == "divergent") {
-          return +d.value > 0 ? config.colour_palette.colours[0] : config.colour_palette.colours[1]
-        } else if (config.colour_palette.type == "categorical") {
+        } else if (config.colour_palette_type == "divergent") {
+          return +d.value > 0 ? config.colour_palette_colours[0] : config.colour_palette_colours[1]
+        } else if (config.colour_palette_type == "categorical") {
           return colour(d.xcategory)
         }
     })
