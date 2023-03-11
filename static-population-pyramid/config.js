@@ -1,14 +1,14 @@
 config = {
-  essential:{
-    accessibleSummary:"This chart has been hidden from screen readers. The main message of the chart is summarised in the chart title.",
-    sourceText:"Office for National Statistics – Census 2021",
-    graphic_data_url:"data.csv",
-    dataType:"numbers",
+  "essential":{
+    "accessibleSummary":"This chart has been hidden from screen readers. The main message of the chart is summarised in the chart title.",
+    "sourceText":"Office for National Statistics – Census 2021",
+    "graphic_data_url":"data.csv",
+    "dataType":"numbers",
     // dataType can be a 'percentage' or 'numbers' where it works out the percentage in the script
-    colour_palette: ["#6749A6","#2EA1A4"],
+    "colour_palette": ["#6749A6","#2EA1A4"],
     // this is the darker palette when there are no comparison lines  ["#6749A6","#2EA1A4"]
-    legend:["Variable name"],
-    xAxislabel: ["Percentage"]
+    "legend":["Variable name"],
+    "xAxislabel": ["Percentage"]
   },
   "optional": {
     "margin": {
