@@ -13,7 +13,7 @@ config={
     // stackOffsetNone means the baseline is set at zero
     // stackOffsetExpand to do 100% charts
     // stackOffsetDivergine for data with positive and negative values
-    "stackOrder":d3.stackOrderNone
+    "stackOrder":"stackOrderNone"
     // other options include
     // d3.stackOrderNone means the order is taken from the datafile
     // d3.stackOrderAppearance the earliest series (according to the maximum value) is at the bottom
