@@ -78,11 +78,11 @@ function drawGraphic() {
     // create div for the first square
     headers.append('div')
       .attr('class', 'rowLabel')
-      .style('width', config.rowWidth + 'px')
+      .style('width', config.essential.rowWidth + 'px')
 
     // create divs for the rest of the column headers
     headers.append('div').attr('class', 'headers')
-      .style('width', `calc(100% - ${config.rowWidth}px)`)
+      .style('width', `calc(100% - ${config.essential.rowWidth}px)`)
       .selectAll('div.column').data(xcategories)
       .join('div')
       .attr('class', 'column')
@@ -99,14 +99,14 @@ function drawGraphic() {
 
   // first div as separate
   rows.append('div').attr('class', 'rowLabel')
-    .style('width', config.rowWidth + 'px')
+    .style('width', config.essential.rowWidth + 'px')
     .append('span')
     .style('text-align', 'right')
     .html(d => d[0])
 
   // then create another div to hold all split bars
   splitBar = rows.append('div').attr('class', 'headers')
-    .style('width', `calc(100% - ${config.rowWidth}px)`)
+    .style('width', `calc(100% - ${config.essential.rowWidth}px)`)
     .selectAll('div.splitBar')
     .data(d => d[1])
     .join('div')
@@ -135,11 +135,11 @@ function drawGraphic() {
     .style('left', d => +d.value > 0 ? x(0) + "%" : x(+d.value) + "%")
     .style('right', d => +d.value > 0 ? 100 - x(+d.value) + "%" : (100 - x(0)) + "%")
     .style('background', function(d) {
-        if (config.colour_palette.type == "mono") {
-          return config.colour_palette.colours
-        } else if (config.colour_palette_type == "divergent") {
-          return +d.value > 0 ? config.colour_palette_colours[0] : config.colour_palette_colours[1]
-        } else if (config.colour_palette_type == "categorical") {
+        if (config.essential.colour_palette.type == "mono") {
+          return config.essential.colour_palette.colours
+        } else if (config.essential.colour_palette_type == "divergent") {
+          return +d.value > 0 ? config.essential.colour_palette_colours[0] : config.essential.colour_palette_colours[1]
+        } else if (config.essential.colour_palette_type == "categorical") {
           return colour(d.xcategory)
         }
     })
@@ -161,11 +161,11 @@ function drawGraphic() {
   finalrow = chart.append('div').attr('class', 'finalRow')
   // first div as separate
   finalrow.append('div').attr('class', 'rowLabel')
-    .style('width', config.rowWidth + 'px')
+    .style('width', config.essential.rowWidth + 'px')
 
   finalrow.append('div').attr('class', '')
     .style('margin-right', '-10px')
-    .style('width', `calc(100% - ${config.rowWidth}px)`)
+    .style('width', `calc(100% - ${config.essential.rowWidth}px)`)
     .style('display', 'inline-block')
     .selectAll('div.column').data(xcategories)
     .join('div')
@@ -180,7 +180,7 @@ function drawGraphic() {
 
   //create link to source
   d3.select("#source")
-    .text("Source: " + config.sourceText)
+    .text("Source: " + config.essential.sourceText)
 
 
 
@@ -190,7 +190,7 @@ function drawGraphic() {
   }
 }
 
-d3.csv(config.graphic_data_url)
+d3.csv(config.essential.graphic_data_url)
   .then(data => {
     //load chart data
     graphic_data = data
