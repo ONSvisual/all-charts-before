@@ -15,14 +15,14 @@ config = {
   "sourceText":"Office for National Statistics – Census 2021",
   "threshold_sm":500
 },
-"types":{
-  "graphic_data_url":"string",
-  "colour_palette_type": "string",
-  "colour_palette_colours": "array",
-  "numberFormat":"string",
-  "rowWidth":"number",
-  "accessibleSummary":"string",
-  "sourceText":"string",
-  "threshold_sm":"number"
+"chart_build":{
+  "graphic_data_url":["string","text"],
+  "colour_palette_type":[ "string","text"],
+  "colour_palette_colours": ["array","colour"],
+  "numberFormat":["string","explanation"],
+  "rowWidth":["number","range",[0,1000]],
+  "accessibleSummary":["string","textarea"],
+  "sourceText":["string","text"],
+  "threshold_sm":["number","range",[0,1000]]
 }
 };
