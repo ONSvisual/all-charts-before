@@ -135,7 +135,7 @@ function drawGraphic() {
     .style('left', d => +d.value > 0 ? x(0) + "%" : x(+d.value) + "%")
     .style('right', d => +d.value > 0 ? 100 - x(+d.value) + "%" : (100 - x(0)) + "%")
     .style('background', function(d) {
-        if (config.essential.colour_palette.type == "mono") {
+        if (config.essential.colour_palette_type == "mono") {
           return config.essential.colour_palette.colours
         } else if (config.essential.colour_palette_type == "divergent") {
           return +d.value > 0 ? config.essential.colour_palette_colours[0] : config.essential.colour_palette_colours[1]
