@@ -6,16 +6,16 @@ function drawGraphic() {
   // clear out existing graphics
   graphic.selectAll("*").remove();
 
-  if (parseInt(graphic.style("width")) < config.threshold_sm) {
+  if (parseInt(graphic.style("width")) < config.essential.threshold_sm) {
     size = "sm"
   } else {
     size = "not sm"
   }
 
   //population accessible summmary
-  d3.select('#accessibleSummary').html(config.accessibleSummary)
+  d3.select('#accessibleSummary').html(config.essential.accessibleSummary)
 
-  formatNo = d3.format(config.numberFormat)
+  formatNo = d3.format(config.essential.numberFormat)
 
   // set up scale
   x = d3.scaleLinear()
@@ -30,16 +30,16 @@ function drawGraphic() {
   // unique columns
   xcategories = [...new Set(graphic_data.map(d => d.xcategory))]
 
-  if (config.colour_palette_type == "categorical") {
+  if (config.essential.colour_palette_type == "categorical") {
     colour = d3.scaleOrdinal()
-      .range(config.colour_palette_colours)
+      .range(config.essential.colour_palette_colours)
       .domain(xcategories)
 
     if(size=="sm"){
       // Set up the legend
     var legenditem = d3.select('#legend')
       .selectAll('div.legend--item')
-      .data(d3.zip(xcategories, config.colour_palette_colours))
+      .data(d3.zip(xcategories, config.essential.colour_palette_colours))
       .enter()
       .append('div')
       .attr('class', 'legend--item')
