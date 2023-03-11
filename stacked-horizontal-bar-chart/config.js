@@ -8,18 +8,18 @@ config={
     // either "auto" or an array for the x domain e.g. [0,100]
     "xAxisTickFormat":".0f",
     "xAxisLabel":"x axis label",
-    "stackOffset":d3.stackOffsetNone,
+    "stackOffset":"stackOffsetNone",
     // options include
     // stackOffsetNone means the baseline is set at zero
     // stackOffsetExpand to do 100% charts
     // stackOffsetDivergine for data with positive and negative values
     "stackOrder":"stackOrderNone"
     // other options include
-    // d3.stackOrderNone means the order is taken from the datafile
-    // d3.stackOrderAppearance the earliest series (according to the maximum value) is at the bottom
-    // d3.stackOrderAscending the smallest series (according to the sum of values) is at the bottom
-    // d3.stackOrderDescending the largest series (according to the sum of values) is at the bottom
-    // d3.stackOrderReverse reverse the order as set from the data file
+    // stackOrderNone means the order is taken from the datafile
+    // stackOrderAppearance the earliest series (according to the maximum value) is at the bottom
+    // stackOrderAscending the smallest series (according to the sum of values) is at the bottom
+    // stackOrderDescending the largest series (according to the sum of values) is at the bottom
+    // stackOrderReverse reverse the order as set from the data file
   },
   "optional": {
     "margin": {
