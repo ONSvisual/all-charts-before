@@ -14,5 +14,15 @@ config = {
   "accessibleSummary":"This chart has been hidden from screen readers. The main message of the chart is summarised in the chart title.",
   "sourceText":"Office for National Statistics – Census 2021",
   "threshold_sm":500
+},
+"types":{
+  "graphic_data_url":"string",
+  "colour_palette_type": "string",
+  "colour_palette_colours": "array",
+  "numberFormat":"string",
+  "rowWidth":"number",
+  "accessibleSummary":"string",
+  "sourceText":"string",
+  "threshold_sm":"number"
 }
 };
