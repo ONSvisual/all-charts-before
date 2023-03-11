@@ -1,4 +1,5 @@
 config = {
+"essential":{
   "graphic_data_url":"data.csv",
   "colour_palette": {
     "type":"categorical",
@@ -15,4 +16,5 @@ config = {
   "accessibleSummary":"This chart has been hidden from screen readers. The main message of the chart is summarised in the chart title.",
   "sourceText":"Office for National Statistics – Census 2021",
   "threshold_sm":500
+}
 };
