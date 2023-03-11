@@ -50,7 +50,7 @@ function drawGraphic() {
 
   const stack = d3.stack()
     .keys(graphic_data.columns.slice(1))
-    .offset(config.essential.stackOffset)
+    .offset(d3[config.essential.stackOffset])
     .order(d3[config.essential.stackOrder])
 
   const series = stack(graphic_data)
