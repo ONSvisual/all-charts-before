@@ -9,8 +9,8 @@ config = {
     // dataType can be a 'percentage' or 'numbers' where it works out the percentage in the script
     "colour_palette": ["#9A86E9", "#3fb0b3"],
     // this is the lighter palette for reference lines ["#9A86E9", "#3fb0b3"]
-    "comparison_colour_palette": ["#5c5185", '#306970'],
-    "legend": ["Selected area", 'England and Wales'],
+    "comparison_colour_palette": ["#5c5185", "#306970"],
+    "legend": ["Selected area", "England and Wales"],
     "xAxislabel": ["Percentage"]
 
   },
