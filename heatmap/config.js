@@ -12,7 +12,7 @@ config={
     // either "jenks","equal" or an array with custom breaks
     "cascadeX":true,
     //turns on or off cascading xaxis label
-    "legendFormat":d3.format(".0f")
+    "legendFormat":".0f"
   },
   "optional": {
     "margin": {
