@@ -15,6 +15,7 @@ config = {
   "sourceText":"Office for National Statistics – Census 2021",
   "threshold_sm":500
 },
+//Don't adjust this part - it only affects the chart build tool
 "chart_build":{
   "graphic_data_url":["string","text"],
   "colour_palette_type":[ "string","text"],
