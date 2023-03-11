@@ -30,16 +30,16 @@ function drawGraphic() {
   // unique columns
   xcategories = [...new Set(graphic_data.map(d => d.xcategory))]
 
-  if (config.colour_palette.type == "categorical") {
+  if (config.colour_palette_type == "categorical") {
     colour = d3.scaleOrdinal()
-      .range(config.colour_palette.colours)
+      .range(config.colour_palette_colours)
       .domain(xcategories)
 
     if(size=="sm"){
       // Set up the legend
     var legenditem = d3.select('#legend')
       .selectAll('div.legend--item')
-      .data(d3.zip(xcategories, config.colour_palette.colours))
+      .data(d3.zip(xcategories, config.colour_palette_colours))
       .enter()
       .append('div')
       .attr('class', 'legend--item')
