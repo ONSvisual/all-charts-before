@@ -106,7 +106,7 @@ function drawGraphic() {
 
   key.append('g')
     .attr('transform', 'translate(0,0)')
-    .call(d3.axisBottom(legendx).tickValues(breaks).tickSize(15).tickFormat(config.essential.legendFormat))
+    .call(d3.axisBottom(legendx).tickValues(breaks).tickSize(15).tickFormat(d3.format(config.essential.legendFormat)))
 
   key.append('text')
     .attr('id', 'keytext')
