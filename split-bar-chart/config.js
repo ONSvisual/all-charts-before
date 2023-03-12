@@ -22,7 +22,7 @@ config = {
   "colour_palette_type_options":["mono","divergent","categorical"],
   "colour_palette_colours": "colour",
   "colour_palette_colours_options": ["#206095","#27A0CC","#871A5B","#A8BD3A","#F66068"],
-  "numberFormat":"select",
+  "numberFormat":"d3Format",
   "numberFormat_options":[".0f"],
   "rowWidth":"number",
   "accessibleSummary":"textarea",
