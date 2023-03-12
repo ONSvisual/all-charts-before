@@ -17,14 +17,17 @@ config = {
 },
 //Don't adjust this part - it only affects the chart build tool
 "chart_build":{
-  "graphic_data_url":["string","text"],
-  "colour_palette_type":[ "string","radio", "mono","divergent","categorical"],
-  "colour_palette_colours": ["array","colour","#206095","#206095_#F66068","#206095_#27A0CC_#871A5B_#A8BD3A_#F66068"],
-  "numberFormat":["string","explanation"],
-  "rowWidth":["number","range","[0,1000]"],
-  "accessibleSummary":["string","textarea"],
-  "sourceText":["string","text"],
-  "threshold_sm":["number","range","[0,1000]"]
+  "graphic_data_url":"text",
+  "colour_palette_type":"radio",
+  "colour_palette_type_options":["mono","divergent","categorical"],
+  "colour_palette_colours": "colour",
+  "colour_palette_colours_options": ["#206095","#206095_#F66068","#206095_#27A0CC_#871A5B_#A8BD3A_#F66068"],
+  "numberFormat":"select",
+  "numberFormat_options":[".0f"],
+  "rowWidth":"number",
+  "accessibleSummary":"textarea",
+  "sourceText":"text",
+  "threshold_sm":"number"
 },
 "elements":{"select":0, "nav":0, "legend":0, "titles":0}
 };
