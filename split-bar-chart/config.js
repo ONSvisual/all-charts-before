@@ -21,7 +21,7 @@ config = {
   "colour_palette_type":"radio",
   "colour_palette_type_options":["mono","divergent","categorical"],
   "colour_palette_colours": "colour",
-  "colour_palette_colours_options": ["#206095","#206095_#F66068","#206095_#27A0CC_#871A5B_#A8BD3A_#F66068"],
+  "colour_palette_colours_options": ["#206095","#27A0CC","#871A5B","#A8BD3A","#F66068"],
   "numberFormat":"select",
   "numberFormat_options":[".0f"],
   "rowWidth":"number",
