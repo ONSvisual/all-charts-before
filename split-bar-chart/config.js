@@ -20,7 +20,7 @@ config = {
   "graphic_data_url":["string","text"],
   "colour_palette_type":[ "string","radio", "mono","divergent","categorical"],
   "colour_palette_colours": ["array","colour","#206095","#206095_#F66068","#206095_#27A0CC_#871A5B_#A8BD3A_#F66068"],
-  "numberFormat":["string","explanation","https:\/\/github.com\/d3\/d3-format"],
+  "numberFormat":["string","explanation"],
   "rowWidth":["number","range","[0,1000]"],
   "accessibleSummary":["string","textarea"],
   "sourceText":["string","text"],
