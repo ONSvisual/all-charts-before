@@ -49,5 +49,6 @@ config = {
     },
     "mobileBreakpoint": 510,
     "mediumBreakpoint": 600
-  }
+  },
+  "elements":{"select":1, "nav":0, "legend":1, "titles":1}
 };

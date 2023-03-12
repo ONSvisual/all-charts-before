@@ -18,12 +18,13 @@ config = {
 //Don't adjust this part - it only affects the chart build tool
 "chart_build":{
   "graphic_data_url":["string","text"],
-  "colour_palette_type":[ "string","text"],
-  "colour_palette_colours": ["array","colour"],
-  "numberFormat":["string","explanation"],
+  "colour_palette_type":[ "string","radio", "mono","divergent","categorical"],
+  "colour_palette_colours": ["array","colour","#206095","#206095_#F66068","#206095_#27A0CC_#871A5B_#A8BD3A_#F66068"],
+  "numberFormat":["string","explanation","https://github.com/d3/d3-format"],
   "rowWidth":["number","range",[0,1000]],
   "accessibleSummary":["string","textarea"],
   "sourceText":["string","text"],
   "threshold_sm":["number","range",[0,1000]]
-}
+},
+"elements":{"select":0, "nav":0, "legend":0, "titles":0}
 };
