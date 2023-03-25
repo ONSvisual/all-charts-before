@@ -1,0 +1,12 @@
+{"ons":{
+"maptitle": "Travelling less than 2km to work by MSOA",
+"varcolour": ["#ffffcc","#a1dab4","#41b6c4","#2c7fb8","#253494"],
+"varunit": "% travelling less than 2km to work",
+"displayFormat": ".0%",
+"legenddecimals": 2,
+"breaks": "jenks",
+"dropticks": true,
+"numberBreaks": 5,
+"nullColour": "#dadada",
+"source":"Office for National Statistics"
+}}

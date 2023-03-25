@@ -1,0 +1,23 @@
+{"ons":{
+"maptitle": "Mortality",
+"varcolour": [
+  "#f1eef6",
+  "#bdc9e1",
+  "#74a9cf",
+  "#0570b0"
+],
+"varunit": "change in months",
+"displaydecimals": 1,
+"decimalsOther": 1,
+"legenddecimals": 0,
+"breaks": "jenks",
+"customBreaksMapLegend":false,
+"breakPoints": [-13, 0, 5, 10, 18],
+"dropticks": false,
+"numberBreaks": 4,
+"columnMap": "Persons",
+"numberLegends": 1,
+"textChartTitle": "Mortality per 100,000 people",
+"labelNames": ["Persons", "Males", "Females", "Region-persons", "Region-males", "Region-females", "Country-persons", "Country-males", "Country-females"],
+"sourceText": "Office for National Statistics"
+}}

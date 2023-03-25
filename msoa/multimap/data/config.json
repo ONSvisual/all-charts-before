@@ -1,0 +1,16 @@
+{"ons":{
+"maptitle": "Energy Efficiency",
+"varcolour": ["#ffffcc","#a1dab4","#41b6c4","#2c7fb8","#253494"],
+"varlabels": ["No central heating","Mains gas only","Electric only","Oil only","Renewable energy only"],
+"varunit": ["% of usual residents","% of usual residents","% of usual residents","% of usual residents","% of usual residents"],
+"varload":0,
+"displayFormat": [".1f",".1f",",.1f",",.1f",",.1f"],
+"displaySuffix":["","","","",""],
+"legendFormat": [".0f",".0f",",.0f",",.0f",",.0f"],
+"legenddecimals":[1,1,1,1,1],
+"breaks": [[0,1,2,3,4,18],[2,31,55,70,80,92],[1,6,12,21,42,84],[0,4,12,24,38,68],[0,1,2,4,6]],
+"dropticks": false,
+"numberBreaks": [5,5,5,5,4],
+"nullColour": "#DADADA",
+"source":"Office for National Statistics – Census 2021"
+}}
