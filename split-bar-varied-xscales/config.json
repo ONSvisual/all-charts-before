@@ -1,0 +1,23 @@
+{
+    "essential" : {
+          "graphic_data_url": "data.csv",
+          "colour_palette":["#206095"],
+          "accessibleSummary":"Description of what the chart is showing....",
+      		"sourceText":["Office for National Statistics - Annual Population Survey"],
+          "sourceURL":[""],
+          "xAxisScale":[[-1,1],[-20,100],[-2000, 25000]],
+          "average_line":[-0.1,1,2000],
+          "columnTitles": ["Measure 1 (%)", "Measure 2","Measure 3"],
+          "columnFormats": [".0%", ",.3r",",.0f"],
+          "barHeight_sm_md_lg" : [30,40,50],
+          "legendLabel" : [""]
+
+
+    },
+    "optional" : {
+          "margin_sm": [8, 0, 25, 140],
+          "margin_md": [8, 0, 25, 130],
+          "mobileBreakpoint" : 610
+
+    }
+}

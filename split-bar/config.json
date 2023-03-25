@@ -1,0 +1,24 @@
+{
+  "essential": {
+    "graphic_data_url": "data.csv",
+    "colour_palette": ["#206095", "#118C7B", "#003C57", "#A8BD3A", "#27A0CC"],
+    "accessibleSummary":"Description of what the chart is showing....",
+    "sourceText":["Office for National Statistics - Annual Population Survey"],
+    "numberFormat":".0f",
+    "xAxisScale": [-25,100],
+    "barHeight": {
+      "sm": 30,
+      "md": 30,
+      "lg": 40
+    },
+    "margin":{
+      "sm":{"top":8,"right":0,"bottom":25,"left":127},
+      "md":{"top":8,"right":0,"bottom":25,"left":127},
+      "lg":{"top":8,"right":0,"bottom":25,"left":127}
+    }
+  },
+  "optional": {
+    "mobileBreakpoint": 414,
+    "middleBreakpoint": 600
+  }
+}

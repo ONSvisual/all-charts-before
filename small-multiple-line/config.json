@@ -1,0 +1,74 @@
+{
+  "essential": {
+    "graphic_data_url": "regions.csv",
+    "dateFormat": "%d/%m/%Y",
+    "displayTicksFormat":"%d %b",
+    "colour_palette": [{
+        "key": "5-year average",
+        "colour": "darkgrey"
+      },
+      {
+        "key": "All deaths",
+        "colour": "#206095"
+      },
+      {
+        "key":"COVID-19 deaths",
+        "colour":"#d32f2f"
+      }
+    ],
+    "categorySort": {
+      "on":true,
+      "sortby":["South East","North West","East","West Midlands","London","Yorkshire and The Humber","South West","East Midlands","North East","Wales"]
+      },
+    "sourceText": ["Office for National Statistics – Deaths registered weekly in England and Wales"],
+    "xAxisLabel": "Week ending",
+    "yAxisLabel": "Weekly Deaths",
+    "yAxisScale": "auto_zero_max_total",
+    "screenreadertext":"REPLACE ME"
+  },
+  "optional": {
+    "margin": {
+      "sm": {
+        "top": 30,
+        "right": 23,
+        "bottom": 45,
+        "left": 50
+      },
+      "md": {
+        "top": 30,
+        "right": 23,
+        "bottom": 50,
+        "left": 50
+      },
+      "lg": {
+        "top": 30,
+        "right": 23,
+        "bottom": 45,
+        "left": 35
+      }
+    },
+    "chart_every":{
+      "sm": 1,
+      "md": 2,
+      "lg": 3
+    },
+    "aspectRatio": {
+      "sm": [16, 8],
+      "md": [16, 8],
+      "lg": [16, 10]
+    },
+    "legendHeight":{
+      "sm": 45,
+      "md": 30,
+      "lg": 30
+    },
+
+    "mobileBreakpoint": 480,
+    "middleBreakpoint": 670,
+    "x_ticks_every": {
+      "sm": 7,
+      "md": 7,
+      "lg": 7
+    }
+  }
+}
